@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Cesium Updates</title><link href="http://cesium.ml/blog/" rel="alternate"></link><link href="http://cesium.ml/blog/feeds/all.atom.xml" rel="self"></link><id>http://cesium.ml/blog/</id><updated>2016-03-15T00:00:00-07:00</updated><entry><title>Introducing: Cesium</title><link href="http://cesium.ml/blog/2016/03/15/introducing-cesium/" rel="alternate"></link><updated>2016-03-15T00:00:00-07:00</updated><author><name>Cesium Developers</name></author><id>tag:cesium.ml,2016-03-15:blog/2016/03/15/introducing-cesium/</id><summary type="html">&lt;p&gt;So, here it is.&lt;/p&gt;
+&lt;h2 id="a-section"&gt;A section&lt;/h2&gt;
+&lt;p&gt;The first blog post on cesium.ml/blog.&lt;/p&gt;</summary><category term="cesium"></category></entry></feed>
