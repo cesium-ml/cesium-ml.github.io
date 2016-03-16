@@ -54,7 +54,7 @@
 					<ul class="off-canvas-list">
 						<li><a href="http://cesium.ml/blog">Home</a></li>
 						<li><label>Categories</label></li>
-							<li ><a href="http://cesium.ml/blog/category/misc.html">misc</a></li>
+							<li class="active"><a href="http://cesium.ml/blog/category/misc.html">misc</a></li>
 
 						<li><label>Links</label></li>
 							<li><a href="http://getpelican.com/">Pelican</a></li>
@@ -80,7 +80,7 @@
 
 					<section class="top-bar-section">
 						<ul class="left">
-								<li ><a href="http://cesium.ml/blog/category/misc.html">misc</a></li>
+								<li class="active"><a href="http://cesium.ml/blog/category/misc.html">misc</a></li>
 						</ul>
                         <ul class="right">                                                                                                                                           
                                                                                                                                              
@@ -93,28 +93,41 @@
 					<div class="row">
 						<!-- Main Content -->
 						<div class="medium-9 small-12 columns" role="content">
-							<div class="row">
-								<div class="small-12 columns">
-									<h2>Archives</h2>
-								</div>
-							</div>
-	<div class="row">
-		<div class="small-10 columns small-centered">
-				<div class="row archive-year">
-					<div class="small-2 columns text-right">
-						<h3>2016</h3>
-					</div>
-				</div>
-					<div class="row archive-entry">
-						<div class="small-2 columns text-right">
-							<h5>Mar 18</h5>
-						</div>
-						<div class="small-10 columns">
-							<h5><a href="http://cesium.ml/blog/2016/03/18/introducing-cesium/">Introducing cesium</a></h5>
-						</div>
-					</div>
-		</div>
-	</div>
+<article>
+	<h2>Introducing cesium</h2>
+	<h2 id="machine-learning-for-time-series">Machine learning for time series</h2>
+<p>The analysis of time series data is a fundamental part of many scientific disciplines,
+including astronomy, bioinformatics, neuroscience, seismology, and many others. Despite the
+importance of such analyses, there are few resources available that allow domain scientists to
+easily explore time course datasets: traditional statistical models of time series are
+often too rigid to explain complex time domain behavior, while popular machine learning
+packages deal almost exclusively with &lsquo;fixed-width&rsquo; datasets containing a uniform number of
+features. <code>cesium</code> allows researchers to apply modern machine learning techniques to time
+series data in a way that is both simple and easily reproducible.</p>
+<h2 id="simplifying-the-analysis-workflow">Simplifying the analysis workflow</h2>
+<p>Building a functioning machine learning pipeline involves much more than choosing a
+mathematical model for your data. The goal of <code>cesium</code> is to simplify the analysis pipeline so
+that scientists can spend less time solving technical computing problems and more time
+answering scientific questions. By streamlining the process of fitting models and studying
+relationships within datasets, <code>cesium</code> allows researchers to iterate rapidly and quickly answer
+new questions that arise out of previous lines of inquiry. We also aim to make analyses using
+<code>cesium</code> easily shareable and reproducible, so that an entire process of discovery can be
+shared with and reproduced by other researchers.</p>
+<h2 id="scaling-to-large-datasets">Scaling to large datasets</h2>
+<p>In many fields, the volumes of time series data available can be immense. <code>cesium</code> makes the
+process of analyzing time series easily parallelizable and scaleable; scaling an analysis
+from a single system to a large cluster should be easy and accessible to non-technical experts.
+The analysis workflow of <code>cesium</code> can be used in two forms: a web front end which allows
+researchers to upload their data, perform analyses, and visualize their models all within the
+browser; and a Python library which exposes more flexible interfaces to the same analysis
+tools. The code for both the web frontend and Python library are open source and available on
+<a href="https://github.com/cesium-ml">Github</a>. In our next post, we&rsquo;ll show how the Python library can
+be used to quickly solve a classic EEG classification problem.</p>
+	<hr/>
+	<h6>Written by <a href="http://cesium.ml/blog/author/cesium-developers.html">Cesium Developers</a> in <a href="http://cesium.ml/blog/category/misc.html">misc</a> on Fri 18 March 2016. Tags: <a href="http://cesium.ml/blog/tag/cesium.html">cesium</a>, </h6>
+</article>
+
+<hr/>
 						</div>
 						<!-- End Main Content -->
 						<!-- Sidebar -->
