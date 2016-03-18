@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Cesium</title><link href="http://cesium.ml/blog/" rel="alternate"></link><link href="http://cesium.ml/blog/feeds/all.atom.xml" rel="self"></link><id>http://cesium.ml/blog/</id><updated>2016-03-21T00:00:00-07:00</updated><entry><title>Epilepsy Detection Using EEG Data</title><link href="http://cesium.ml/blog/2016/03/21/epilepsy-detection-using-eeg-data/" rel="alternate"></link><updated>2016-03-21T00:00:00-07:00</updated><author><name>Cesium Developers</name></author><id>tag:cesium.ml,2016-03-21:blog/2016/03/21/epilepsy-detection-using-eeg-data/</id><summary type="html">&lt;blockquote&gt;
-&lt;p&gt;IPython notebook: &lt;a href="/notebooks/EEG_Example.ipynb" download="EEG_Example.ipynb"&gt;download&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;IPython notebook: &lt;a href="http://cesium.ml/blog/2016/03/21/epilepsy-detection-using-eeg-data/notebooks/EEG_Example.ipynb" download="EEG_Example.ipynb"&gt;download&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;In this example we&amp;rsquo;ll use the &lt;a href="http://github.com/cesium-ml/cesium/"&gt;&lt;code&gt;cesium&lt;/code&gt;&lt;/a&gt; library to compare
 various techniques for epilepsy detection using a classic EEG time series dataset from
@@ -38,7 +38,7 @@ holdout set and comparing them to the true class labels.&lt;/p&gt;
 &lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="/images/EEG_Example_output_1_0.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="http://cesium.ml/blog/2016/03/21/epilepsy-detection-using-eeg-data/images/EEG_Example_output_1_0.png" /&gt;&lt;/p&gt;
 &lt;h2 id="featurization"&gt;Featurization&lt;/h2&gt;
 &lt;p&gt;Once the data is loaded, we can generate features for each time series using the
 &lt;a href="https://cesium.readthedocs.org/en/latest/api/cesium.featurize.html"&gt;&lt;code&gt;cesium.featurize&lt;/code&gt;&lt;/a&gt;
