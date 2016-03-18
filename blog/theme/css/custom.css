@@ -132,8 +132,9 @@ table.highlighttable {
 	height: auto;
 	overflow-x: auto;
         overflow-y: none;
-        padding: 10px;
-        margin-top: 10px;
+        padding: 0.5rem;
+        margin-top: 0.25rem;
+        margin-bottom: 1rem;
 }
 
 .highlight-output .highlight {
@@ -143,4 +144,8 @@ table.highlighttable {
 .linenodiv {
 	margin: 0.55rem 0.5rem 0 0;
 	padding: 0;
+}
+
+img {
+    margin-top: 1rem;
 }
