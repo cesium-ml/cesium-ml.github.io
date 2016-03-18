@@ -126,11 +126,18 @@ table.highlighttable {
 	padding: 0;
 	vertical-align: top;
 }
-       
+
 .highlight{
 	width: 100%;
 	height: auto;
-	overflow: auto;
+	overflow-x: auto;
+        overflow-y: none;
+        padding: 10px;
+        margin-top: 10px;
+}
+
+.highlight-output .highlight {
+    background: #DDEEFF;
 }
 
 .linenodiv {
