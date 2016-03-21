@@ -281,31 +281,69 @@ Wavelet transform features: training accuracy=100.00%, test accuracy=95.20%
 &lt;p&gt;The workflow presented here is intentionally simplistic and omits many important steps
 such as feature selection, model parameter selection, etc. Since we make use of standard
 &lt;code&gt;scikit-learn&lt;/code&gt; models, additional steps can be incorporated in the same way they would be
-for any other (non-time domain) machine learning problem.&lt;/p&gt;</summary><category term="example"></category></entry><entry><title>Introducing cesium</title><link href="http://cesium.ml/blog/2016/03/18/introducing-cesium/" rel="alternate"></link><updated>2016-03-18T00:00:00-07:00</updated><author><name>Cesium Developers</name></author><id>tag:cesium.ml,2016-03-18:blog/2016/03/18/introducing-cesium/</id><summary type="html">&lt;h2 id="machine-learning-for-time-series"&gt;Machine learning for time series&lt;/h2&gt;
-&lt;p&gt;The analysis of time series data is a fundamental part of many scientific disciplines,
-including astronomy, bioinformatics, neuroscience, seismology, and many others. Despite the
-importance of such analyses, there are few resources available that allow domain scientists to
-easily explore time course datasets: traditional statistical models of time series are
-often too rigid to explain complex time domain behavior, while popular machine learning
-packages deal almost exclusively with &amp;lsquo;fixed-width&amp;rsquo; datasets containing a uniform number of
-features. &lt;code&gt;cesium&lt;/code&gt; allows researchers to apply modern machine learning techniques to time
-series data in a way that is both simple and easily reproducible.&lt;/p&gt;
+for any other (non-time domain) machine learning problem.&lt;/p&gt;</summary><category term="example"></category></entry><entry><title>Introducing cesium</title><link href="http://cesium.ml/blog/2016/03/21/introducing-cesium/" rel="alternate"></link><updated>2016-03-21T00:00:00-07:00</updated><author><name>Cesium Developers</name></author><id>tag:cesium.ml,2016-03-21:blog/2016/03/21/introducing-cesium/</id><summary type="html">&lt;p&gt;From the reading of electroencephalograms to earthquake seismograms to light
+curves of astronomical variable stars, gleaning insight from time-series data
+has been central to a broad range of scientific and medical disciplines. When
+simple analytical thresholds or model fits suffice, of course, technicians and
+experts can be easily removed from the tedium of inspection and discovery by
+employing custom algorithms. But when dynamical systems are not easily modeled
+(e.g., through standard regression techniques), classification and anomaly
+detection have traditionally been reserved for the domain expert: digitally
+recorded data are visually scanned to ascertain the nature of the time
+variability and find important (perhaps life-threatening) outliers. &lt;em&gt;Does this
+person have an irregular heartbeat? What type of supernova occurred in that
+galaxy?&lt;/em&gt; Even in the presence of sensor noise and intrinsic diversity of the
+samples, well-trained domain specialists show a remarkable ability to make
+discerning statements about the complex data.&lt;/p&gt;
+&lt;p&gt;In the era when more time-series data are being collected than can be visually
+inspected by domain experts, however, computational frameworks must necessarily
+act as human surrogates. Capturing the subtleties that domain experts intuit in
+time-series data (and perhaps even besting the experts) is a non-trivial task.
+In this respect, machine learning (ML) has already been used to great success
+in several disciplines, including text classification, image retrieval,
+segmentation of remote sensing data, internet traffic classification, video
+analysis, and classification of medical data. Even if the results are similar,
+some obvious advantages over human involvement are that ML algorithms are
+tunable, repeatable, and deterministic. A computational framework built with
+elasticity can scale, whereas experts (and even crowdsourcing) cannot.&lt;/p&gt;
+&lt;h2 id="machine-learning-for-domain-science-time-series-inference"&gt;Machine learning for domain-science time series inference&lt;/h2&gt;
+&lt;p&gt;Despite the importance of time series in scientific research, there are few
+resources available that allow domain scientists to easily build robust
+computational inference workflows for their own data, let alone data gathered
+more broadly in their field. &lt;/p&gt;
+&lt;p&gt;Traditional statistical models of time series are often too rigid to explain
+complex time domain behavior, while popular machine learning packages deal
+almost exclusively with &amp;lsquo;fixed-width&amp;rsquo; datasets requiring a uniform number of
+pre-computed features. &lt;code&gt;cesium&lt;/code&gt; allows researchers to apply modern machine
+learning techniques to time series data in a way that is simple, easily
+reproducible, and extensible. Being a modern data-driven scientist should not,
+we believe, require an army of software engineers, machine learning experts,
+statisticians and production operators.&lt;/p&gt;
 &lt;h2 id="simplifying-the-analysis-workflow"&gt;Simplifying the analysis workflow&lt;/h2&gt;
-&lt;p&gt;Building a functioning machine learning pipeline involves much more than choosing a
-mathematical model for your data. The goal of &lt;code&gt;cesium&lt;/code&gt; is to simplify the analysis pipeline so
-that scientists can spend less time solving technical computing problems and more time
-answering scientific questions. By streamlining the process of fitting models and studying
-relationships within datasets, &lt;code&gt;cesium&lt;/code&gt; allows researchers to iterate rapidly and quickly answer
-new questions that arise out of previous lines of inquiry. We also aim to make analyses using
-&lt;code&gt;cesium&lt;/code&gt; easily shareable and reproducible, so that an entire process of discovery can be
-shared with and reproduced by other researchers.&lt;/p&gt;
+&lt;p&gt;Building a functioning machine learning pipeline involves much more than
+choosing a mathematical model for your data. The goal of &lt;code&gt;cesium&lt;/code&gt; is to
+simplify the analysis pipeline so that scientists can spend less time solving
+technical computing problems and more time answering scientific questions.
+&lt;code&gt;cesium&lt;/code&gt; comes with a number of out-of-the-box feature engineering workflows,
+such as periodogram analysis, that transforms raw timeseries data to pull
+signal from the noise. By also streamlining the process of fitting models and
+studying relationships within datasets, &lt;code&gt;cesium&lt;/code&gt; allows researchers to iterate
+rapidly and quickly answer new questions that arise out of previous lines of
+inquiry. We also aim to make analyses using &lt;code&gt;cesium&lt;/code&gt; easily shareable and
+reproducible, so that an entire process of discovery can be shared with and
+reproduced by other researchers. Saved &lt;code&gt;cesium&lt;/code&gt; workflows are meant to be
+production-ready, meaning that comprehensive machine learning can be applied
+not just to data in retrospect but to live, streaming data as well.&lt;/p&gt;
 &lt;h2 id="scaling-to-large-datasets"&gt;Scaling to large datasets&lt;/h2&gt;
-&lt;p&gt;In many fields, the volumes of time series data available can be immense. &lt;code&gt;cesium&lt;/code&gt; makes the
-process of analyzing time series easily parallelizable and scaleable; scaling an analysis
-from a single system to a large cluster should be easy and accessible to non-technical experts.
-The analysis workflow of &lt;code&gt;cesium&lt;/code&gt; can be used in two forms: a web front end which allows
-researchers to upload their data, perform analyses, and visualize their models all within the
-browser; and a Python library which exposes more flexible interfaces to the same analysis
-tools. The code for both the web frontend and Python library are open source and available on
-&lt;a href="https://github.com/cesium-ml"&gt;Github&lt;/a&gt;. In our next post, we&amp;rsquo;ll show how the Python library can
-be used to quickly solve a classic EEG classification problem.&lt;/p&gt;</summary></entry></feed>
+&lt;p&gt;In many fields, the volumes of time series data available can be immense.
+&lt;code&gt;cesium&lt;/code&gt; makes the process of analyzing time series easily parallelizable and
+scaleable; scaling an analysis from a single system to a large cluster should
+be easy and accessible to non-technical experts.  The analysis workflow of
+&lt;code&gt;cesium&lt;/code&gt; can be used in two forms: a web front end which allows researchers to
+upload their data, perform analyses, and visualize their models all within the
+browser; and a Python library which exposes more flexible interfaces to the
+same analysis tools. The code for both the web frontend and Python library are
+open source and available on &lt;a href="https://github.com/cesium-ml"&gt;Github&lt;/a&gt;. In our
+next post, we&amp;rsquo;ll show how the Python library can be used to quickly solve a
+classic EEG classification problem.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;With thanks to the National Science Foundation and the Gordon and Betty Moore Foundation for support.&lt;/em&gt;&lt;/p&gt;</summary></entry></feed>
