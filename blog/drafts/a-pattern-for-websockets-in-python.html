@@ -62,12 +62,13 @@
             <li><label>Social</label></li>
               <li><a href="https://github.com/cesium-ml/cesium">GitHub</a></li>
               <li><a href="https://pypi.python.org/pypi/cesium">PyPi</a></li>
-          </ul>   
+          </ul>
         </aside>
 
         <!-- top bar nav -->
         <nav class="top-bar hide-for-small-only" data-topbar>
           <ul class="title-area">
+            <img src="http://cesium.ml/blog/theme/img/cesium-blue-dark.png" style="height: 45px; padding: 7.5px;"/>
             <li class="name">
               <h1><a href="http://cesium.ml/blog/">Cesium</a></h1>
             </li>
@@ -98,7 +99,7 @@
             <!-- Main Content -->
             <div class="medium-9 small-12 columns" role="content">
 <article>
-	<h2>A Pattern for Websockets in Python</h2>
+	<h1>A Pattern for Websockets in Python</h1>
 	<p><em>This post is part of a series of articles on the infrastructure
 underlying <a href="http://cesium.ml">cesium</a>.  Please send us your feedback
 in the comments section below.</em></p>
@@ -289,6 +290,22 @@ section below.  We&rsquo;d love to learn how to do it better!</p>
 </article>
 
 <hr/>
+<div class="row">
+	<div class="small-12 columns">
+		<h3>Comments</h3>
+		<div id="disqus_thread"></div>
+		<script type="text/javascript">
+			var disqus_shortname = 'cesium-ml';
+			(function() {
+				var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+				dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+			})();
+		</script>
+		<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+		<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	</div>
+</div>
             </div>
             <!-- End Main Content -->
 
@@ -336,5 +353,14 @@ section below.  We&rsquo;d love to learn how to do it better!</p>
     <script>
       $(document).foundation();
     </script>
+<script type="text/javascript">
+    var disqus_shortname = 'cesium-ml';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
   </body>
 </html>
