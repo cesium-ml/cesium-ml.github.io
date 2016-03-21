@@ -281,7 +281,7 @@ Wavelet transform features: training accuracy=100.00%, test accuracy=95.20%
 &lt;p&gt;The workflow presented here is intentionally simplistic and omits many important steps
 such as feature selection, model parameter selection, etc. Since we make use of standard
 &lt;code&gt;scikit-learn&lt;/code&gt; models, additional steps can be incorporated in the same way they would be
-for any other (non-time domain) machine learning problem.&lt;/p&gt;</summary><category term="cesium"></category></entry><entry><title>Introducing cesium</title><link href="http://cesium.ml/blog/2016/03/18/introducing-cesium/" rel="alternate"></link><updated>2016-03-18T00:00:00-07:00</updated><author><name>Cesium Developers</name></author><id>tag:cesium.ml,2016-03-18:blog/2016/03/18/introducing-cesium/</id><summary type="html">&lt;h2 id="machine-learning-for-time-series"&gt;Machine learning for time series&lt;/h2&gt;
+for any other (non-time domain) machine learning problem.&lt;/p&gt;</summary><category term="example"></category></entry><entry><title>Introducing cesium</title><link href="http://cesium.ml/blog/2016/03/18/introducing-cesium/" rel="alternate"></link><updated>2016-03-18T00:00:00-07:00</updated><author><name>Cesium Developers</name></author><id>tag:cesium.ml,2016-03-18:blog/2016/03/18/introducing-cesium/</id><summary type="html">&lt;h2 id="machine-learning-for-time-series"&gt;Machine learning for time series&lt;/h2&gt;
 &lt;p&gt;The analysis of time series data is a fundamental part of many scientific disciplines,
 including astronomy, bioinformatics, neuroscience, seismology, and many others. Despite the
 importance of such analyses, there are few resources available that allow domain scientists to
@@ -308,4 +308,4 @@ researchers to upload their data, perform analyses, and visualize their models a
 browser; and a Python library which exposes more flexible interfaces to the same analysis
 tools. The code for both the web frontend and Python library are open source and available on
 &lt;a href="https://github.com/cesium-ml"&gt;Github&lt;/a&gt;. In our next post, we&amp;rsquo;ll show how the Python library can
-be used to quickly solve a classic EEG classification problem.&lt;/p&gt;</summary><category term="cesium"></category></entry></feed>
+be used to quickly solve a classic EEG classification problem.&lt;/p&gt;</summary></entry></feed>

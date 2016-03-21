@@ -84,16 +84,16 @@
 }
 
 code {
-	color: #222222;
-	background: #f8f8f8;
-	border: 1px solid #dddddd;
-	margin: 0 2px;
-	padding: 0 5px;
+	color: #555599;
+//	background: #f8f8f8;
+//	border: 1px solid #dddddd;
+//	margin: 0 2px;
+//	padding: 0 5px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	font-weight: normal;
-	font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+//	font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 }
 
 p {
@@ -144,10 +144,6 @@ table.highlighttable {
 .linenodiv {
 	margin: 0.55rem 0.5rem 0 0;
 	padding: 0;
-}
-
-article img {
-    margin-top: 1rem;
 }
 
 .main-section {
