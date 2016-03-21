@@ -101,11 +101,11 @@
             <div class="medium-9 small-12 columns" role="content">
 <article>
 	<h2>Introducing cesium</h2>
-	<p>From the reading of electroencephalograms to earthquake seismograms to light
-curves of astronomical variable stars, gleaning insight from time-series data
+	<p>From the reading of electroencephalograms (EEGs) to earthquake seismograms to light
+curves of astronomical variable stars, gleaning insight from time series data
 has been central to a broad range of scientific and medical disciplines. When
-simple analytical thresholds or model fits suffice, of course, technicians and
-experts can be easily removed from the tedium of inspection and discovery by
+simple analytical thresholds or models suffice, technicians and
+experts can be easily removed from the process of inspection and discovery by
 employing custom algorithms. But when dynamical systems are not easily modeled
 (e.g., through standard regression techniques), classification and anomaly
 detection have traditionally been reserved for the domain expert: digitally
@@ -115,10 +115,10 @@ person have an irregular heartbeat? What type of supernova occurred in that
 galaxy?</em> Even in the presence of sensor noise and intrinsic diversity of the
 samples, well-trained domain specialists show a remarkable ability to make
 discerning statements about the complex data.</p>
-<p>In the era when more time-series data are being collected than can be visually
+<p>In an era when more time series data are being collected than can be visually
 inspected by domain experts, however, computational frameworks must necessarily
 act as human surrogates. Capturing the subtleties that domain experts intuit in
-time-series data (and perhaps even besting the experts) is a non-trivial task.
+time series data (and perhaps even besting the experts) is a non-trivial task.
 In this respect, machine learning (ML) has already been used to great success
 in several disciplines, including text classification, image retrieval,
 segmentation of remote sensing data, internet traffic classification, video
@@ -145,7 +145,7 @@ choosing a mathematical model for your data. The goal of <code>cesium</code> is 
 simplify the analysis pipeline so that scientists can spend less time solving
 technical computing problems and more time answering scientific questions.
 <code>cesium</code> comes with a number of out-of-the-box feature engineering workflows,
-such as periodogram analysis, that transforms raw timeseries data to pull
+such as periodogram analysis, that transforms raw time series data to pull
 signal from the noise. By also streamlining the process of fitting models and
 studying relationships within datasets, <code>cesium</code> allows researchers to iterate
 rapidly and quickly answer new questions that arise out of previous lines of
@@ -158,7 +158,7 @@ not just to data in retrospect but to live, streaming data as well.</p>
 <p>In many fields, the volumes of time series data available can be immense.
 <code>cesium</code> makes the process of analyzing time series easily parallelizable and
 scaleable; scaling an analysis from a single system to a large cluster should
-be easy and accessible to non-technical experts.  The analysis workflow of
+be easy and accessible to non-technical experts. The analysis workflow of
 <code>cesium</code> can be used in two forms: a web front end which allows researchers to
 upload their data, perform analyses, and visualize their models all within the
 browser; and a Python library which exposes more flexible interfaces to the
@@ -166,7 +166,8 @@ same analysis tools. The code for both the web frontend and Python library are
 open source and available on <a href="https://github.com/cesium-ml">Github</a>. In our
 next post, we&rsquo;ll show how the Python library can be used to quickly solve a
 classic EEG classification problem.</p>
-<p><em>With thanks to the National Science Foundation and the Gordon and Betty Moore Foundation for support.</em></p>
+<p><em>With thanks to the National Science Foundation and the Gordon and Betty Moore
+Foundation for support.</em></p>
 	<hr/>
 	<h6>Written by <a href="http://cesium.ml/blog/author/cesium-developers.html">Cesium Developers</a> in <a href="http://cesium.ml/blog/category/cesium.html">cesium</a> on Mon 21 March 2016.</h6>
 </article>
