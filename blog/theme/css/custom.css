@@ -84,16 +84,16 @@
 }
 
 code {
-	color: #222222;
-	background: #f8f8f8;
-	border: 1px solid #dddddd;
-	margin: 0 2px;
-	padding: 0 5px;
+	color: #555599;
+//	background: #f8f8f8;
+//	border: 1px solid #dddddd;
+//	margin: 0 2px;
+//	padding: 0 5px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	font-weight: normal;
-	font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+//	font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 }
 
 p {
@@ -126,20 +126,26 @@ table.highlighttable {
 	padding: 0;
 	vertical-align: top;
 }
-       
+
 .highlight{
-	color: #222222;
-	background: #f8f8f8;
-	border: 1px solid #dddddd;
-	margin: 10px 0;
-	padding: 10px;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
+	width: 100%;
+	height: auto;
 	overflow-x: auto;
+        overflow-y: none;
+        padding: 0.5rem;
+        margin-top: 0.25rem;
+        margin-bottom: 1rem;
+}
+
+.highlight-output .highlight {
+    background: #DDEEFF;
 }
 
 .linenodiv {
 	margin: 0.55rem 0.5rem 0 0;
 	padding: 0;
+}
+
+.main-section {
+    padding-top: 1rem;
 }
