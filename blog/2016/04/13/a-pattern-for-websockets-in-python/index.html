@@ -64,6 +64,7 @@
             <li><a href="http://cesium.ml/blog">Home</a></li>
             <li><label>Categories</label></li>
               <li ><a href="http://cesium.ml/blog/category/cesium.html">cesium</a></li>
+              <li class="active"><a href="http://cesium.ml/blog/category/engineering.html">engineering</a></li>
               <li ><a href="http://cesium.ml/blog/category/misc.html">misc</a></li>
 
             <li><label>Links</label></li>
@@ -93,18 +94,18 @@
               <li><a href="http://cesium.ml/blog">Blog</li>
             </ul>
             <ul class="right">
-              <li class="has-dropdown">
+<!--              <li class="has-dropdown">
                 <a href="#" class="">Learn</a>
                 <ul class="dropdown">
                   <li><a href="#">About Cesium</a></li>
                   <li><a href="#">Tutorials</a></li>
                 </ul>
-              </li>
+</li>
               <li class="divider"></li>
               <li class="has-form">
                 <a href="#"
                    class="button">Try it in your browser</a>
-              </li>
+</li>-->
             </ul>
           </section>
         </nav>
@@ -150,7 +151,7 @@ frontend to backend via API calls, and from backend to frontend via
 WebSocket communication.</p>
 <h2 id="building-blocks">Building blocks</h2>
 <p>The following diagram shows the different components of the system:</p>
-<p><img alt="Message Flow Layout" src="http://cesium.ml/blog/drafts/images/cesium_message_flow.png" /></p>
+<p><img alt="Message Flow Layout" src="http://cesium.ml/blog/2016/04/13/a-pattern-for-websockets-in-python/images/cesium_message_flow.png" /></p>
 <p>There are two primary server pools: web servers, and web socket
 servers.  The web servers can be any WSGI compatible server,
 e.g. Flask, Django, Pyramid, etc.  The WebSocket server consists of
@@ -340,6 +341,7 @@ section below.  We&rsquo;d love to learn how to do it better!</p>
                 <h5>Categories</h5>
                 <ul class="tag-cloud">
                   <li ><a href="http://cesium.ml/blog/category/cesium.html">cesium</a></li>
+                  <li class="active"><a href="http://cesium.ml/blog/category/engineering.html">engineering</a></li>
                   <li ><a href="http://cesium.ml/blog/category/misc.html">misc</a></li>
                 </ul>
               </div>
