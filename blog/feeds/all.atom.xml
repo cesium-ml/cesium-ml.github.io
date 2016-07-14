@@ -1,5 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Cesium</title><link href="http://cesium.ml/blog/" rel="alternate"></link><link href="http://cesium.ml/blog/feeds/all.atom.xml" rel="self"></link><id>http://cesium.ml/blog/</id><updated>2016-07-08T00:00:00-07:00</updated><entry><title>Epilepsy Detection Using EEG Data</title><link href="http://cesium.ml/blog/2016/07/08/epilepsy-detection-using-eeg-data/" rel="alternate"></link><published>2016-07-08T00:00:00-07:00</published><author><name>Cesium Developers</name></author><id>tag:cesium.ml,2016-07-08:blog/2016/07/08/epilepsy-detection-using-eeg-data/</id><summary type="html">&lt;blockquote&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Cesium</title><link href="http://cesium.ml/blog/" rel="alternate"></link><link href="http://cesium.ml/blog/feeds/all.atom.xml" rel="self"></link><id>http://cesium.ml/blog/</id><updated>2016-07-13T00:00:00-07:00</updated><entry><title>A Pattern for Websockets in Python</title><link href="http://cesium.ml/blog/2016/07/13/a-pattern-for-websockets-in-python/" rel="alternate"></link><updated>2016-07-13T00:00:00-07:00</updated><author><name>Cesium Developers</name></author><id>tag:cesium.ml,2016-07-13:blog/2016/07/13/a-pattern-for-websockets-in-python/</id><summary type="html">&lt;p&gt;&lt;em&gt;This post is part of a series of articles on the infrastructure
+underlying &lt;a href="http://cesium.ml"&gt;cesium&lt;/a&gt;.  Please send us your feedback
+in the comments section below.&lt;/em&gt;&lt;/p&gt;
+&lt;h2 id="motivation"&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;Traditionally, web frontends communicate with backends via API
+requests.  For example, to add a new user, the frontend would make an
+asynchronous Javascript (AJAX) POST to &lt;code&gt;/create_user&lt;/code&gt;.  The request
+returns with a status and some data, which the frontend relays to the
+user as appropriate.&lt;/p&gt;
+&lt;p&gt;These types of calls are designed for short-lived request-answer
+sessions: the answer has to come back before the connection times out,
+otherwise the frontend is responsible for implementing logic for
+recovery.  When the backend has to deal with a longer running task,
+the frontend typically polls repeatedly to see when it is done.&lt;/p&gt;
+&lt;p&gt;Another common scenario is one where the server wants to push updates
+through to clients as they become available.  E.g., the server may
+scan a news resource once an hour, and then publish the results to all
+connected clients.  The traditional solution is to either
+&lt;a href="http://www.html5rocks.com/en/tutorials/eventsource/basics/"&gt;use long polling or SSEs&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Both of the above situations can be handled gracefully using
+WebSockets&amp;mdash;the caveat being that these can be intimidating to set
+up, especially in Python.&lt;/p&gt;
+&lt;p&gt;This article presents a simple recipe for adding WebSocket support to
+your Python web server.  It works with any WSGI server (Flask, Django,
+Pylons, etc.), and allows scaling up as demand increases.  The full
+source code is available online at
+&lt;a href="https://github.com/cesium-ml/message_flow"&gt;https://github.com/cesium-ml/message_flow&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Our end goal is to provide a pattern through which implementation of a
+data flow model such as &lt;a href="https://facebook.github.io/flux/"&gt;Flux&lt;/a&gt;
+becomes trivial.  Information always flows in one direction: from
+frontend to backend via API calls, and from backend to frontend via
+WebSocket communication.&lt;/p&gt;
+&lt;h2 id="building-blocks"&gt;Building blocks&lt;/h2&gt;
+&lt;p&gt;The following diagram shows the different components of the system:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Message Flow Layout" src="http://cesium.ml/blog/2016/07/13/a-pattern-for-websockets-in-python/images/cesium_message_flow.png" /&gt;&lt;/p&gt;
+&lt;p&gt;There are two primary server pools: web servers, and web socket
+servers.  The web servers can be any WSGI compatible server,
+e.g. Flask, Django, Pyramid, etc.  The WebSocket server consists of
+&lt;a href="https://github.com/cesium-ml/message_flow/blob/master/websocket_server.py"&gt;105 lines of code&lt;/a&gt;,
+and runs on top of
+&lt;a href="http://www.tornadoweb.org/en/stable/websocket.html"&gt;Tornado&amp;rsquo;s WebSocket implementation&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;We run both these services behind an
+&lt;a href="https://www.nginx.com/resources/wiki/"&gt;nginx&lt;/a&gt; proxy, which redirects
+any requests to &lt;code&gt;/websocket&lt;/code&gt; to the WebSocket pool and the rest to the
+Flask app (running on a Unix socket).&lt;/p&gt;
+&lt;p&gt;To allow communication between web servers and WebSocket servers, a
+&lt;a href="http://zeromq.org/"&gt;ZeroMq&lt;/a&gt; XPUB-XSUB pipeline is established (this
+is a very simple form of a message broker, and comprises a mere
+&lt;a href="https://github.com/cesium-ml/message_flow/blob/master/message_proxy.py"&gt;20 lines of code&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;The frontend connects to the backend using a
+&lt;a href="https://github.com/joewalnes/reconnecting-websocket"&gt;reconnecting WebSocket&lt;/a&gt;.
+To ensure that users cannot listen to one another&amp;rsquo;s communications,
+each frontend client receives a &lt;a href="https://jwt.io/"&gt;JSON Web Token&lt;/a&gt;.
+This token is then sent to the WebSocket for authentication.  This
+logic requires about
+&lt;a href="https://github.com/cesium-ml/message_flow/blob/master/static/js/websocket.js"&gt;80 lines of JavaScript&lt;/a&gt;
+and
+&lt;a href="https://github.com/cesium-ml/message_flow/blob/master/flask_app.py#L80"&gt;3 lines of Python&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To keep the different micro-services up and running, we use
+&lt;a href="http://supervisord.org/"&gt;Supervisor&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;As you can see, each individual component is&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;extremely simple and&lt;/li&gt;
+&lt;li&gt;does only the one thing it was designed for.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Debugging is easy: all log files are saved together in &lt;code&gt;./log&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Horizontal scaling is a only matter of launching more servers.  This
+is true for all services except the current message proxy
+implementation, which can easily
+&lt;a href="https://blog.pivotal.io/pivotal/products/rabbitmq-hits-one-million-messages-per-second-on-google-compute-engine"&gt;be replaced with RabbitMQ&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id="technical-lessons-learnt"&gt;Technical lessons learnt&lt;/h2&gt;
+&lt;p&gt;There are a few technical gotchas to be aware of when implementing
+this pattern:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Behind nginx, open connections time out after one minute.  We send
+  heartbeat packets every 45 seconds to keep the connection open.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Supervisord has not been released for Python 3 yet.  This is not a
+  problem, since we&amp;rsquo;re only using it as a process controller.  Just
+  launch it using Python 2 irrespective of the version used for the
+  rest of your code.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Python tasks do not always flush output to standard out rapidly
+  enough for it to be caught in log files.  In our
+  &lt;code&gt;supervisord.conf&lt;/code&gt;, we set &lt;code&gt;PYTHONBUFFERED=1&lt;/code&gt; to make sure our
+  log files are filled.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Not all systems allow opening Unix sockets in arbitrary locations.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="adopting-this-pattern"&gt;Adopting this pattern&lt;/h2&gt;
+&lt;p&gt;Try our
+&lt;a href="https://github.com/cesium-ml/message_flow"&gt;example application&lt;/a&gt; or
+adopt this pattern in your own code as follows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Modify your existing web application to have an API endpoint
+   &lt;code&gt;/socket_auth_token&lt;/code&gt;.  This endpoint should return:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-python"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;jwt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;username&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;get_username&lt;/span&gt;&lt;span class="p"&gt;()},&lt;/span&gt; &lt;span class="n"&gt;app_secret_key&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Include &lt;code&gt;reconnecting-websocket&lt;/code&gt; and &lt;code&gt;websocket.js&lt;/code&gt; (from our
+  repository) in your HTML header:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-html"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.min.js&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/static/js/websocket.js&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Modify your landing page to have &lt;code&gt;connected&lt;/code&gt; and &lt;code&gt;authenticated&lt;/code&gt; divs:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-html"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;b&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;WebSocket Connection: &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;b&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;connected&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Offline&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;b&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;WebSocket Authenticated: &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;b&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;authenticated&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;No&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Implement a basic event handler in your landing page to take care
+of incoming messages on the WebSocket:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight-html"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;messageHandler&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;switch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;id&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;EXAMPLE ID&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+        &lt;span class="cm"&gt;/* Do something when a message with &amp;quot;EXAMPLE ID&amp;quot; arrives */&lt;/span&gt;
+        &lt;span class="nx"&gt;console&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;EXAMPLE ID spotted&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="k"&gt;default&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+        &lt;span class="nx"&gt;console&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Unknown message &amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nx"&gt;JSON&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;stringify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39; arrived&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="p"&gt;};&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;And hook it up:&lt;/p&gt;
+&lt;div class="highlight-html"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+  $(document).ready(function() {
+    ws = createSocket(&amp;quot;ws://&amp;quot; + {{ request.host|tojson|safe }} + &amp;quot;/websocket&amp;quot;,
+                      messageHandler
+    );
+  }
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Messages are relayed to the frontend by &lt;a href="https://github.com/cesium-ml/message_flow/blob/master/flask_app.py#L33"&gt;publishing them onto the message
+  queue&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Copy the following services and config files from our repository:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Makefile&lt;/li&gt;
+&lt;li&gt;supervisord.conf&lt;/li&gt;
+&lt;li&gt;nginx.conf&lt;/li&gt;
+&lt;li&gt;message_proxy.py&lt;/li&gt;
+&lt;li&gt;websocket_server.py&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Edit &lt;code&gt;supervisord.conf&lt;/code&gt; to launch your webapp on &lt;code&gt;run/flask_app.sock&lt;/code&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Launch!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Type &lt;code&gt;make&lt;/code&gt; and watch the fireworks.&lt;/p&gt;
+&lt;h2 id="future-work"&gt;Future work&lt;/h2&gt;
+&lt;p&gt;Our next goal is to implement syncing of frontend and backend state,
+with the ultimate purpose of implementing Flux with React components.
+This is easy in Javascript with isomorphic applications, but harder
+when the backend is running Python.&lt;/p&gt;
+&lt;p&gt;Please let us know what you think of this pattern in the comments
+section below.  We&amp;rsquo;d love to learn how to do it better!&lt;/p&gt;</summary></entry><entry><title>Epilepsy Detection Using EEG Data</title><link href="http://cesium.ml/blog/2016/07/08/epilepsy-detection-using-eeg-data/" rel="alternate"></link><updated>2016-07-08T00:00:00-07:00</updated><author><name>Cesium Developers</name></author><id>tag:cesium.ml,2016-07-08:blog/2016/07/08/epilepsy-detection-using-eeg-data/</id><summary type="html">&lt;blockquote&gt;
 &lt;p&gt;IPython notebook: &lt;a href="http://cesium.ml/blog/2016/07/08/epilepsy-detection-using-eeg-data/notebooks/EEG_Example.ipynb" download="EEG_Example.ipynb"&gt;download&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;In this example we&amp;rsquo;ll use the &lt;a href="http://github.com/cesium-ml/cesium/"&gt;&lt;code&gt;cesium&lt;/code&gt;&lt;/a&gt; library to compare
@@ -285,7 +472,7 @@ But with essentially three function calls (&lt;code&gt;featurize_time_series&lt;
 &lt;code&gt;build_model_from_featureset&lt;/code&gt;, and &lt;code&gt;model_predictions&lt;/code&gt;), we are able to build a
 model from a set of time series and make predictions on new, unlabeled data. In
 upcoming posts we&amp;rsquo;ll introduce the web frontend for &lt;code&gt;cesium&lt;/code&gt; and describe how
-the same analysis can be performed in a browser with no setup or coding required.&lt;/p&gt;</summary><category term="example"></category></entry><entry><title>Introducing cesium</title><link href="http://cesium.ml/blog/2016/07/08/introducing-cesium/" rel="alternate"></link><published>2016-07-08T00:00:00-07:00</published><author><name>Cesium Developers</name></author><id>tag:cesium.ml,2016-07-08:blog/2016/07/08/introducing-cesium/</id><summary type="html">&lt;p&gt;From the reading of electroencephalograms (EEGs) to earthquake seismograms to light
+the same analysis can be performed in a browser with no setup or coding required.&lt;/p&gt;</summary><category term="example"></category></entry><entry><title>Introducing cesium</title><link href="http://cesium.ml/blog/2016/07/08/introducing-cesium/" rel="alternate"></link><updated>2016-07-08T00:00:00-07:00</updated><author><name>Cesium Developers</name></author><id>tag:cesium.ml,2016-07-08:blog/2016/07/08/introducing-cesium/</id><summary type="html">&lt;p&gt;From the reading of electroencephalograms (EEGs) to earthquake seismograms to light
 curves of astronomical variable stars, gleaning insight from time series data
 has been central to a broad range of scientific and medical disciplines. When
 simple analytical thresholds or models suffice, technicians and
@@ -352,191 +539,4 @@ open source and available on &lt;a href="https://github.com/cesium-ml"&gt;Github
 next post, we&amp;rsquo;ll show how the Python library can be used to quickly solve a
 classic EEG classification problem.&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;With thanks to the National Science Foundation and the Gordon and Betty Moore
-Foundation for support.&lt;/em&gt;&lt;/p&gt;</summary></entry><entry><title>A Pattern for Websockets in Python</title><link href="http://cesium.ml/blog/2016/04/13/a-pattern-for-websockets-in-python/" rel="alternate"></link><published>2016-04-13T00:00:00-07:00</published><author><name>Cesium Developers</name></author><id>tag:cesium.ml,2016-04-13:blog/2016/04/13/a-pattern-for-websockets-in-python/</id><summary type="html">&lt;p&gt;&lt;em&gt;This post is part of a series of articles on the infrastructure
-underlying &lt;a href="http://cesium.ml"&gt;cesium&lt;/a&gt;.  Please send us your feedback
-in the comments section below.&lt;/em&gt;&lt;/p&gt;
-&lt;h2 id="motivation"&gt;Motivation&lt;/h2&gt;
-&lt;p&gt;Traditionally, web frontends communicate with backends via API
-requests.  For example, to add a new user, the frontend would make an
-asynchronous Javascript (AJAX) POST to &lt;code&gt;/create_user&lt;/code&gt;.  The request
-returns with a status and some data, which the frontend relays to the
-user as appropriate.&lt;/p&gt;
-&lt;p&gt;These types of calls are designed for short-lived request-answer
-sessions: the answer has to come back before the connection times out,
-otherwise the frontend is responsible for implementing logic for
-recovery.  When the backend has to deal with a longer running task,
-the frontend typically polls repeatedly to see when it is done.&lt;/p&gt;
-&lt;p&gt;Another common scenario is one where the server wants to push updates
-through to clients as they become available.  E.g., the server may
-scan a news resource once an hour, and then publish the results to all
-connected clients.  The traditional solution is to either
-&lt;a href="http://www.html5rocks.com/en/tutorials/eventsource/basics/"&gt;use long polling or SSEs&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Both of the above situations can be handled gracefully using
-WebSockets&amp;mdash;the caveat being that these can be intimidating to set
-up, especially in Python.&lt;/p&gt;
-&lt;p&gt;This article presents a simple recipe for adding WebSocket support to
-your Python web server.  It works with any WSGI server (Flask, Django,
-Pylons, etc.), and allows scaling up as demand increases.  The full
-source code is available online at
-&lt;a href="https://github.com/cesium-ml/message_flow"&gt;https://github.com/cesium-ml/message_flow&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Our end goal is to provide a pattern through which implementation of a
-data flow model such as &lt;a href="https://facebook.github.io/flux/"&gt;Flux&lt;/a&gt;
-becomes trivial.  Information always flows in one direction: from
-frontend to backend via API calls, and from backend to frontend via
-WebSocket communication.&lt;/p&gt;
-&lt;h2 id="building-blocks"&gt;Building blocks&lt;/h2&gt;
-&lt;p&gt;The following diagram shows the different components of the system:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Message Flow Layout" src="http://cesium.ml/blog/2016/04/13/a-pattern-for-websockets-in-python/images/cesium_message_flow.png" /&gt;&lt;/p&gt;
-&lt;p&gt;There are two primary server pools: web servers, and web socket
-servers.  The web servers can be any WSGI compatible server,
-e.g. Flask, Django, Pyramid, etc.  The WebSocket server consists of
-&lt;a href="https://github.com/cesium-ml/message_flow/blob/master/websocket_server.py"&gt;105 lines of code&lt;/a&gt;,
-and runs on top of
-&lt;a href="http://www.tornadoweb.org/en/stable/websocket.html"&gt;Tornado&amp;rsquo;s WebSocket implementation&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;We run both these services behind an
-&lt;a href="https://www.nginx.com/resources/wiki/"&gt;nginx&lt;/a&gt; proxy, which redirects
-any requests to &lt;code&gt;/websocket&lt;/code&gt; to the WebSocket pool and the rest to the
-Flask app (running on a Unix socket).&lt;/p&gt;
-&lt;p&gt;To allow communication between web servers and WebSocket servers, a
-&lt;a href="http://zeromq.org/"&gt;ZeroMq&lt;/a&gt; XPUB-XSUB pipeline is established (this
-is a very simple form of a message broker, and comprises a mere
-&lt;a href="https://github.com/cesium-ml/message_flow/blob/master/message_proxy.py"&gt;20 lines of code&lt;/a&gt;).&lt;/p&gt;
-&lt;p&gt;The frontend connects to the backend using a
-&lt;a href="https://github.com/joewalnes/reconnecting-websocket"&gt;reconnecting WebSocket&lt;/a&gt;.
-To ensure that users cannot listen to one another&amp;rsquo;s communications,
-each frontend client receives a &lt;a href="https://jwt.io/"&gt;JSON Web Token&lt;/a&gt;.
-This token is then sent to the WebSocket for authentication.  This
-logic requires about
-&lt;a href="https://github.com/cesium-ml/message_flow/blob/master/static/js/websocket.js"&gt;80 lines of JavaScript&lt;/a&gt;
-and
-&lt;a href="https://github.com/cesium-ml/message_flow/blob/master/flask_app.py#L80"&gt;3 lines of Python&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;To keep the different micro-services up and running, we use
-&lt;a href="http://supervisord.org/"&gt;Supervisor&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;As you can see, each individual component is&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;extremely simple and&lt;/li&gt;
-&lt;li&gt;does only the one thing it was designed for.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Debugging is easy: all log files are saved together in &lt;code&gt;./log&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Horizontal scaling is a only matter of launching more servers.  This
-is true for all services except the current message proxy
-implementation, which can easily
-&lt;a href="https://blog.pivotal.io/pivotal/products/rabbitmq-hits-one-million-messages-per-second-on-google-compute-engine"&gt;be replaced with RabbitMQ&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id="technical-lessons-learnt"&gt;Technical lessons learnt&lt;/h2&gt;
-&lt;p&gt;There are a few technical gotchas to be aware of when implementing
-this pattern:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Behind nginx, open connections time out after one minute.  We send
-  heartbeat packets every 45 seconds to keep the connection open.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Supervisord has not been released for Python 3 yet.  This is not a
-  problem, since we&amp;rsquo;re only using it as a process controller.  Just
-  launch it using Python 2 irrespective of the version used for the
-  rest of your code.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Python tasks do not always flush output to standard out rapidly
-  enough for it to be caught in log files.  In our
-  &lt;code&gt;supervisord.conf&lt;/code&gt;, we set &lt;code&gt;PYTHONBUFFERED=1&lt;/code&gt; to make sure our
-  log files are filled.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Not all systems allow opening Unix sockets in arbitrary locations.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="adopting-this-pattern"&gt;Adopting this pattern&lt;/h2&gt;
-&lt;p&gt;Try our
-&lt;a href="https://github.com/cesium-ml/message_flow"&gt;example application&lt;/a&gt; or
-adopt this pattern in your own code as follows:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Modify your existing web application to have an API endpoint
-   &lt;code&gt;/socket_auth_token&lt;/code&gt;.  This endpoint should return:&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight-python"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;jwt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;username&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;get_username&lt;/span&gt;&lt;span class="p"&gt;()},&lt;/span&gt; &lt;span class="n"&gt;app_secret_key&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-
-&lt;ul&gt;
-&lt;li&gt;Include &lt;code&gt;reconnecting-websocket&lt;/code&gt; and &lt;code&gt;websocket.js&lt;/code&gt; (from our
-  repository) in your HTML header:&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight-html"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.min.js&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
-&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/static/js/websocket.js&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-
-&lt;ul&gt;
-&lt;li&gt;Modify your landing page to have &lt;code&gt;connected&lt;/code&gt; and &lt;code&gt;authenticated&lt;/code&gt; divs:&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight-html"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;b&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;WebSocket Connection: &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;b&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;connected&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Offline&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;b&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;WebSocket Authenticated: &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;b&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;authenticated&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;No&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
-&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-
-&lt;ul&gt;
-&lt;li&gt;Implement a basic event handler in your landing page to take care
-of incoming messages on the WebSocket:&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight-html"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;messageHandler&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-    &lt;span class="k"&gt;switch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;id&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-      &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;EXAMPLE ID&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
-        &lt;span class="cm"&gt;/* Do something when a message with &amp;quot;EXAMPLE ID&amp;quot; arrives */&lt;/span&gt;
-        &lt;span class="nx"&gt;console&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;EXAMPLE ID spotted&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-        &lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-      &lt;span class="k"&gt;default&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
-        &lt;span class="nx"&gt;console&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Unknown message &amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nx"&gt;JSON&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;stringify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39; arrived&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-      &lt;span class="p"&gt;}&lt;/span&gt;
-  &lt;span class="p"&gt;};&lt;/span&gt;
-&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-
-&lt;p&gt;And hook it up:&lt;/p&gt;
-&lt;div class="highlight-html"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
-  $(document).ready(function() {
-    ws = createSocket(&amp;quot;ws://&amp;quot; + {{ request.host|tojson|safe }} + &amp;quot;/websocket&amp;quot;,
-                      messageHandler
-    );
-  }
-&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Messages are relayed to the frontend by &lt;a href="https://github.com/cesium-ml/message_flow/blob/master/flask_app.py#L33"&gt;publishing them onto the message
-  queue&lt;/a&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Copy the following services and config files from our repository:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Makefile&lt;/li&gt;
-&lt;li&gt;supervisord.conf&lt;/li&gt;
-&lt;li&gt;nginx.conf&lt;/li&gt;
-&lt;li&gt;message_proxy.py&lt;/li&gt;
-&lt;li&gt;websocket_server.py&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Edit &lt;code&gt;supervisord.conf&lt;/code&gt; to launch your webapp on &lt;code&gt;run/flask_app.sock&lt;/code&gt;.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Launch!&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Type &lt;code&gt;make&lt;/code&gt; and watch the fireworks.&lt;/p&gt;
-&lt;h2 id="future-work"&gt;Future work&lt;/h2&gt;
-&lt;p&gt;Our next goal is to implement syncing of frontend and backend state,
-with the ultimate purpose of implementing Flux with React components.
-This is easy in Javascript with isomorphic applications, but harder
-when the backend is running Python.&lt;/p&gt;
-&lt;p&gt;Please let us know what you think of this pattern in the comments
-section below.  We&amp;rsquo;d love to learn how to do it better!&lt;/p&gt;</summary></entry></feed>
+Foundation for support.&lt;/em&gt;&lt;/p&gt;</summary></entry></feed>
