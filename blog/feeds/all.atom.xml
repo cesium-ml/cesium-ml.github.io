@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Cesium</title><link href="http://cesium.ml/blog/" rel="alternate"></link><link href="http://cesium.ml/blog/feeds/all.atom.xml" rel="self"></link><id>http://cesium.ml/blog/</id><updated>2016-07-13T00:00:00-07:00</updated><entry><title>A Pattern for Websockets in Python</title><link href="http://cesium.ml/blog/2016/07/13/a-pattern-for-websockets-in-python/" rel="alternate"></link><published>2016-07-13T00:00:00-07:00</published><updated>2016-07-13T00:00:00-07:00</updated><author><name>Cesium Developers</name></author><id>tag:cesium.ml,2016-07-13:blog/2016/07/13/a-pattern-for-websockets-in-python/</id><summary type="html">&lt;p&gt;&lt;em&gt;This post is part of a series of articles on the infrastructure
-underlying &lt;a href="http://cesium.ml"&gt;cesium&lt;/a&gt;.  Please send us your feedback
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Cesium</title><link href="http://cesium-ml.org/blog/" rel="alternate"></link><link href="http://cesium-ml.org/blog/feeds/all.atom.xml" rel="self"></link><id>http://cesium-ml.org/blog/</id><updated>2016-07-13T00:00:00-07:00</updated><entry><title>A Pattern for Websockets in Python</title><link href="http://cesium-ml.org/blog/2016/07/13/a-pattern-for-websockets-in-python/" rel="alternate"></link><published>2016-07-13T00:00:00-07:00</published><updated>2016-07-13T00:00:00-07:00</updated><author><name>Cesium Developers</name></author><id>tag:cesium-ml.org,2016-07-13:/blog/2016/07/13/a-pattern-for-websockets-in-python/</id><summary type="html">&lt;p&gt;Using long polling and other workarounds to deal with
+long-running tasks is less than optimal.  We explore a
+pattern for easy deployment of WebSockets in Python web
+applications, through the combination of various
+micro-services.&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;em&gt;This post is part of a series of articles on the infrastructure
+underlying &lt;a href="http://cesium-ml.org"&gt;cesium&lt;/a&gt;.  Please send us your feedback
 in the comments section below.&lt;/em&gt;&lt;/p&gt;
-&lt;h2 id="motivation"&gt;Motivation&lt;/h2&gt;
+&lt;h2&gt;Motivation&lt;/h2&gt;
 &lt;p&gt;Traditionally, web frontends communicate with backends via API
 requests.  For example, to add a new user, the frontend would make an
 asynchronous Javascript (AJAX) POST to &lt;code&gt;/create_user&lt;/code&gt;.  The request
@@ -19,7 +23,7 @@ scan a news resource once an hour, and then publish the results to all
 connected clients.  The traditional solution is to either
 &lt;a href="http://www.html5rocks.com/en/tutorials/eventsource/basics/"&gt;use long polling or SSEs&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Both of the above situations can be handled gracefully using
-WebSockets&amp;mdash;the caveat being that these can be intimidating to set
+WebSockets---the caveat being that these can be intimidating to set
 up, especially in Python.&lt;/p&gt;
 &lt;p&gt;This article presents a simple recipe for adding WebSocket support to
 your Python web server.  It works with any WSGI server (Flask, Django,
@@ -31,15 +35,15 @@ data flow model such as &lt;a href="https://facebook.github.io/flux/"&gt;Flux&lt
 becomes trivial.  Information always flows in one direction: from
 frontend to backend via API calls, and from backend to frontend via
 WebSocket communication.&lt;/p&gt;
-&lt;h2 id="building-blocks"&gt;Building blocks&lt;/h2&gt;
+&lt;h2&gt;Building blocks&lt;/h2&gt;
 &lt;p&gt;The following diagram shows the different components of the system:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Message Flow Layout" src="http://cesium.ml/blog/2016/07/13/a-pattern-for-websockets-in-python/images/cesium_message_flow.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Message Flow Layout" src="http://cesium-ml.org/blog/2016/07/13/a-pattern-for-websockets-in-python/images/cesium_message_flow.png"&gt;&lt;/p&gt;
 &lt;p&gt;There are two primary server pools: web servers, and web socket
 servers.  The web servers can be any WSGI compatible server,
 e.g. Flask, Django, Pyramid, etc.  The WebSocket server consists of
 &lt;a href="https://github.com/cesium-ml/message_flow/blob/master/websocket_server.py"&gt;105 lines of code&lt;/a&gt;,
 and runs on top of
-&lt;a href="http://www.tornadoweb.org/en/stable/websocket.html"&gt;Tornado&amp;rsquo;s WebSocket implementation&lt;/a&gt;.&lt;/p&gt;
+&lt;a href="http://www.tornadoweb.org/en/stable/websocket.html"&gt;Tornado's WebSocket implementation&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;We run both these services behind an
 &lt;a href="https://www.nginx.com/resources/wiki/"&gt;nginx&lt;/a&gt; proxy, which redirects
 any requests to &lt;code&gt;/websocket&lt;/code&gt; to the WebSocket pool and the rest to the
@@ -50,7 +54,7 @@ is a very simple form of a message broker, and comprises a mere
 &lt;a href="https://github.com/cesium-ml/message_flow/blob/master/message_proxy.py"&gt;20 lines of code&lt;/a&gt;).&lt;/p&gt;
 &lt;p&gt;The frontend connects to the backend using a
 &lt;a href="https://github.com/joewalnes/reconnecting-websocket"&gt;reconnecting WebSocket&lt;/a&gt;.
-To ensure that users cannot listen to one another&amp;rsquo;s communications,
+To ensure that users cannot listen to one another's communications,
 each frontend client receives a &lt;a href="https://jwt.io/"&gt;JSON Web Token&lt;/a&gt;.
 This token is then sent to the WebSocket for authentication.  This
 logic requires about
@@ -69,7 +73,7 @@ and
 is true for all services except the current message proxy
 implementation, which can easily
 &lt;a href="https://blog.pivotal.io/pivotal/products/rabbitmq-hits-one-million-messages-per-second-on-google-compute-engine"&gt;be replaced with RabbitMQ&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id="technical-lessons-learnt"&gt;Technical lessons learnt&lt;/h2&gt;
+&lt;h2&gt;Technical lessons learnt&lt;/h2&gt;
 &lt;p&gt;There are a few technical gotchas to be aware of when implementing
 this pattern:&lt;/p&gt;
 &lt;ul&gt;
@@ -79,7 +83,7 @@ this pattern:&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Supervisord has not been released for Python 3 yet.  This is not a
-  problem, since we&amp;rsquo;re only using it as a process controller.  Just
+  problem, since we're only using it as a process controller.  Just
   launch it using Python 2 irrespective of the version used for the
   rest of your code.&lt;/p&gt;
 &lt;/li&gt;
@@ -93,7 +97,7 @@ this pattern:&lt;/p&gt;
 &lt;p&gt;Not all systems allow opening Unix sockets in arbitrary locations.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="adopting-this-pattern"&gt;Adopting this pattern&lt;/h2&gt;
+&lt;h2&gt;Adopting this pattern&lt;/h2&gt;
 &lt;p&gt;Try our
 &lt;a href="https://github.com/cesium-ml/message_flow"&gt;example application&lt;/a&gt; or
 adopt this pattern in your own code as follows:&lt;/p&gt;
@@ -101,37 +105,34 @@ adopt this pattern in your own code as follows:&lt;/p&gt;
 &lt;li&gt;Modify your existing web application to have an API endpoint
    &lt;code&gt;/socket_auth_token&lt;/code&gt;.  This endpoint should return:&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight-python"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;jwt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;username&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;get_username&lt;/span&gt;&lt;span class="p"&gt;()},&lt;/span&gt; &lt;span class="n"&gt;app_secret_key&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;jwt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;username&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;get_username&lt;/span&gt;&lt;span class="p"&gt;()},&lt;/span&gt; &lt;span class="n"&gt;app_secret_key&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
 
 
 &lt;ul&gt;
 &lt;li&gt;Include &lt;code&gt;reconnecting-websocket&lt;/code&gt; and &lt;code&gt;websocket.js&lt;/code&gt; (from our
   repository) in your HTML header:&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight-html"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.min.js&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.min.js&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
 &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/static/js/websocket.js&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
 
 
 &lt;ul&gt;
 &lt;li&gt;Modify your landing page to have &lt;code&gt;connected&lt;/code&gt; and &lt;code&gt;authenticated&lt;/code&gt; divs:&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight-html"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
   &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;b&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;WebSocket Connection: &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;b&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;connected&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Offline&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
   &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;b&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;WebSocket Authenticated: &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;b&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;authenticated&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;No&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
 &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
 
 
 &lt;ul&gt;
 &lt;li&gt;Implement a basic event handler in your landing page to take care
 of incoming messages on the WebSocket:&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight-html"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
   &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;messageHandler&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="k"&gt;switch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;id&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
       &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;EXAMPLE ID&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
@@ -144,11 +145,10 @@ of incoming messages on the WebSocket:&lt;/li&gt;
   &lt;span class="p"&gt;};&lt;/span&gt;
 &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
 
 
 &lt;p&gt;And hook it up:&lt;/p&gt;
-&lt;div class="highlight-html"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
   $(document).ready(function() {
     ws = createSocket(&amp;quot;ws://&amp;quot; + {{ request.host|tojson|safe }} + &amp;quot;/websocket&amp;quot;,
                       messageHandler
@@ -156,7 +156,6 @@ of incoming messages on the WebSocket:&lt;/li&gt;
   }
 &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
 
 
 &lt;ul&gt;
@@ -180,28 +179,35 @@ of incoming messages on the WebSocket:&lt;/li&gt;
 &lt;li&gt;Launch!&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Type &lt;code&gt;make&lt;/code&gt; and watch the fireworks.&lt;/p&gt;
-&lt;h2 id="future-work"&gt;Future work&lt;/h2&gt;
+&lt;h2&gt;Future work&lt;/h2&gt;
 &lt;p&gt;Our next goal is to implement syncing of frontend and backend state,
 with the ultimate purpose of implementing Flux with React components.
 This is easy in Javascript with isomorphic applications, but harder
 when the backend is running Python.&lt;/p&gt;
 &lt;p&gt;Please let us know what you think of this pattern in the comments
-section below.  We&amp;rsquo;d love to learn how to do it better!&lt;/p&gt;</summary></entry><entry><title>Epilepsy Detection Using EEG Data</title><link href="http://cesium.ml/blog/2016/07/08/epilepsy-detection-using-eeg-data/" rel="alternate"></link><published>2016-07-08T00:00:00-07:00</published><updated>2016-07-08T00:00:00-07:00</updated><author><name>Cesium Developers</name></author><id>tag:cesium.ml,2016-07-08:blog/2016/07/08/epilepsy-detection-using-eeg-data/</id><summary type="html">&lt;blockquote&gt;
-&lt;p&gt;IPython notebook: &lt;a href="http://cesium.ml/blog/2016/07/08/epilepsy-detection-using-eeg-data/notebooks/EEG_Example.ipynb" download="EEG_Example.ipynb"&gt;download&lt;/a&gt;&lt;/p&gt;
+section below.  We'd love to learn how to do it better!&lt;/p&gt;</content></entry><entry><title>Epilepsy Detection Using EEG Data</title><link href="http://cesium-ml.org/blog/2016/07/08/epilepsy-detection-using-eeg-data/" rel="alternate"></link><published>2016-07-08T00:00:00-07:00</published><updated>2016-07-08T00:00:00-07:00</updated><author><name>Cesium Developers</name></author><id>tag:cesium-ml.org,2016-07-08:/blog/2016/07/08/epilepsy-detection-using-eeg-data/</id><summary type="html">&lt;blockquote&gt;
+&lt;p&gt;IPython notebook: &lt;a href="http://cesium-ml.org/blog/2016/07/08/epilepsy-detection-using-eeg-data/notebooks/EEG_Example.ipynb" download="EEG_Example.ipynb"&gt;download&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;In this example we&amp;rsquo;ll use the &lt;a href="http://github.com/cesium-ml/cesium/"&gt;&lt;code&gt;cesium&lt;/code&gt;&lt;/a&gt; library to compare
+&lt;p&gt;In this example we'll use the &lt;a href="http://github.com/cesium-ml/cesium/"&gt;&lt;code&gt;cesium&lt;/code&gt;&lt;/a&gt; library to compare
+various techniques for epilepsy detection using a classic EEG time series dataset from
+&lt;a href="http://www.meb.uni-bonn.de/epileptologie/science/physik/eegdata.html"&gt;Andrzejak et al.&lt;/a&gt;.
+The raw data are separated into five classes: Z, O, N, F, and S; we will consider a
+three-class classification problem …&lt;/p&gt;</summary><content type="html">&lt;blockquote&gt;
+&lt;p&gt;IPython notebook: &lt;a href="http://cesium-ml.org/blog/2016/07/08/epilepsy-detection-using-eeg-data/notebooks/EEG_Example.ipynb" download="EEG_Example.ipynb"&gt;download&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;In this example we'll use the &lt;a href="http://github.com/cesium-ml/cesium/"&gt;&lt;code&gt;cesium&lt;/code&gt;&lt;/a&gt; library to compare
 various techniques for epilepsy detection using a classic EEG time series dataset from
 &lt;a href="http://www.meb.uni-bonn.de/epileptologie/science/physik/eegdata.html"&gt;Andrzejak et al.&lt;/a&gt;.
 The raw data are separated into five classes: Z, O, N, F, and S; we will consider a
 three-class classification problem of distinguishing normal (Z, O), interictal (N, F), and
 ictal (S) signals.&lt;/p&gt;
-&lt;p&gt;The overall workflow consists of three steps: first, we &amp;ldquo;featurize&amp;rdquo; the time series by
+&lt;p&gt;The overall workflow consists of three steps: first, we "featurize" the time series by
 selecting some set of mathematical functions to apply to each; next, we build some
 classification models which use these features to distinguish between classes;
 finally, we validate our models by generating predictions for some unseen
 holdout set and comparing them to the true class labels.&lt;/p&gt;
-&lt;p&gt;First, we&amp;rsquo;ll load the data and inspect a representative time series from each class:&lt;/p&gt;
-&lt;div class="highlight-python"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;matplotlib&lt;/span&gt; &lt;span class="n"&gt;inline&lt;/span&gt;
+&lt;p&gt;First, we'll load the data and inspect a representative time series from each class:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;matplotlib&lt;/span&gt; &lt;span class="n"&gt;inline&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;seaborn&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;seaborn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
@@ -222,20 +228,19 @@ holdout set and comparing them to the true class labels.&lt;/p&gt;
     &lt;span class="n"&gt;subplot&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;eeg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;times&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;eeg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;measurements&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
     &lt;span class="n"&gt;subplot&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xlabel&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;time (s)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ylabel&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;signal&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;label&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img alt="png" src="http://cesium.ml/blog/2016/07/08/epilepsy-detection-using-eeg-data/images/EEG_Example_output_1_0.png" /&gt;&lt;/p&gt;
-&lt;h2 id="featurization"&gt;Featurization&lt;/h2&gt;
+&lt;p&gt;&lt;img alt="png" src="http://cesium-ml.org/blog/2016/07/08/epilepsy-detection-using-eeg-data/images/EEG_Example_output_1_0.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Featurization&lt;/h2&gt;
 &lt;p&gt;Once the data is loaded, we can generate features for each time series using the
 &lt;a href="https://cesium.readthedocs.org/en/latest/api/cesium.featurize.html"&gt;&lt;code&gt;cesium.featurize&lt;/code&gt;&lt;/a&gt;
 module. The &lt;code&gt;featurize&lt;/code&gt; module includes many built-in choices of features which can be applied
-for any type of time series data; here we&amp;rsquo;ve chosen a few generic features that do not have
+for any type of time series data; here we've chosen a few generic features that do not have
 any special biological significance.&lt;/p&gt;
 &lt;p&gt;If Celery is running, the time series will automatically be split among the available workers
 and featurized in parallel; setting &lt;code&gt;use_celery=False&lt;/code&gt; will cause the time series to be
 featurized serially.&lt;/p&gt;
-&lt;div class="highlight-python"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;cesium&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;featurize&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;cesium&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;featurize&lt;/span&gt;
 &lt;span class="n"&gt;features_to_use&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;amplitude&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
                    &lt;span class="s1"&gt;&amp;#39;percent_beyond_1_std&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
                    &lt;span class="s1"&gt;&amp;#39;maximum&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -254,10 +259,9 @@ featurized serially.&lt;/p&gt;
                                               &lt;span class="n"&gt;targets&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;eeg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;classes&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;use_celery&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fset_cesium&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
 
 
-&lt;div class="highlight-output"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;xarray.Dataset&amp;gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;xarray.Dataset&amp;gt;
 Dimensions:                    (channel: 1, name: 500)
 Coordinates:
   * channel                    (channel) int64 0
@@ -276,7 +280,6 @@ Data variables:
     weighted_average           (name, channel) float64 -4.132 -52.44 12.71 ...
     std                        (name, channel) float64 40.41 48.81 47.14 ...
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
 
 
 &lt;p&gt;The output of
@@ -285,16 +288,16 @@ is an &lt;code&gt;xarray.Dataset&lt;/code&gt; which contains all the feature inf
 learning model: feature values are stored as data variables, and the time series index/class
 label are stored as coordinates (a &lt;code&gt;channel&lt;/code&gt; coordinate will also be used later for
 multi-channel data).&lt;/p&gt;
-&lt;h3 id="custom-feature-functions"&gt;Custom feature functions&lt;/h3&gt;
+&lt;h3&gt;Custom feature functions&lt;/h3&gt;
 &lt;p&gt;Custom feature functions not built into &lt;code&gt;cesium&lt;/code&gt; may be passed in using the
 &lt;code&gt;custom_functions&lt;/code&gt; keyword, either as a dictionary &lt;code&gt;{feature_name: function}&lt;/code&gt;, or as a
 &lt;a href="http://dask.pydata.org/en/latest/custom-graphs.html"&gt;dask graph&lt;/a&gt;. Functions should take
 three arrays &lt;code&gt;times, measurements, errors&lt;/code&gt; as inputs; details can be found in the
 &lt;code&gt;cesium.featurize&lt;/code&gt;
 &lt;a href="https://cesium.readthedocs.org/en/latest/api/cesium.featurize.html"&gt;documentation&lt;/a&gt;.
-Here we&amp;rsquo;ll compute five standard features for EEG analysis provided by &lt;a href="http://linkinghub.elsevier.com/retrieve/pii/S0957417411003253"&gt;Guo et al.
+Here we'll compute five standard features for EEG analysis provided by &lt;a href="http://linkinghub.elsevier.com/retrieve/pii/S0957417411003253"&gt;Guo et al.
 (2012)&lt;/a&gt;:&lt;/p&gt;
-&lt;div class="highlight-python"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;scipy.stats&lt;/span&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;mean_signal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
@@ -312,12 +315,11 @@ Here we&amp;rsquo;ll compute five standard features for EEG analysis provided by
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;skew_signal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;scipy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stats&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;skew&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
 
 
-&lt;p&gt;Now we&amp;rsquo;ll pass the desired feature functions as a dictionary via the &lt;code&gt;custom_functions&lt;/code&gt;
+&lt;p&gt;Now we'll pass the desired feature functions as a dictionary via the &lt;code&gt;custom_functions&lt;/code&gt;
 keyword argument.&lt;/p&gt;
-&lt;div class="highlight-python"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;guo_features&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;guo_features&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="s1"&gt;&amp;#39;mean&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;mean_signal&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
     &lt;span class="s1"&gt;&amp;#39;std&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;std_signal&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
     &lt;span class="s1"&gt;&amp;#39;mean2&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;mean_square_signal&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -332,10 +334,9 @@ keyword argument.&lt;/p&gt;
                                            &lt;span class="n"&gt;use_celery&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fset_guo&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
 
 
-&lt;div class="highlight-output"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;xarray.Dataset&amp;gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;xarray.Dataset&amp;gt;
 Dimensions:    (channel: 1, name: 500)
 Coordinates:
   * channel    (channel) int64 0
@@ -348,10 +349,9 @@ Data variables:
     skew       (name, channel) float64 0.0328 -0.09271 -0.0041 0.06368 ...
     std        (name, channel) float64 40.41 48.81 47.14 47.07 44.91 45.02 ...
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
 
 
-&lt;h3 id="multi-channel-time-series"&gt;Multi-channel time series&lt;/h3&gt;
+&lt;h3&gt;Multi-channel time series&lt;/h3&gt;
 &lt;p&gt;The EEG time series considered here consist of univariate signal measurements along a
 uniform time grid. But
 &lt;a href="https://cesium.readthedocs.org/en/latest/api/cesium.featurize.html#cesium.featurize.featurize_time_series"&gt;&lt;code&gt;featurize_time_series&lt;/code&gt;&lt;/a&gt;
@@ -359,7 +359,7 @@ also accepts multi-channel data; to demonstrate this, we will decompose each sig
 five frequency bands using a discrete wavelet transform as suggested by &lt;a href="http://www.sciencedirect.com/science/article/pii/S0957417404001745"&gt;Subasi
 (2005)&lt;/a&gt;, and then
 featurize each band separately using the five functions from above.&lt;/p&gt;
-&lt;div class="highlight-python"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pywt&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pywt&lt;/span&gt;
 
 &lt;span class="n"&gt;n_channels&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;
 &lt;span class="n"&gt;eeg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;dwts&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;pywt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;wavedec&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pywt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Wavelet&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;db1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;level&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;n_channels&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -370,10 +370,9 @@ featurize each band separately using the five functions from above.&lt;/p&gt;
                                            &lt;span class="n"&gt;custom_functions&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;guo_features&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fset_dwt&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
 
 
-&lt;div class="highlight-output"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;xarray.Dataset&amp;gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;xarray.Dataset&amp;gt;
 Dimensions:    (channel: 5, name: 500)
 Coordinates:
   * channel    (channel) int64 0 1 2 3 4
@@ -386,7 +385,6 @@ Data variables:
     mean       (name, channel) float64 -17.08 -6.067 -0.9793 0.1546 0.03555 ...
     std        (name, channel) float64 112.5 72.97 48.17 25.77 10.15 119.8 ...
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
 
 
 &lt;p&gt;The output featureset has the same form as before, except now the &lt;code&gt;channel&lt;/code&gt; coordinate is
@@ -396,7 +394,7 @@ and &lt;a href="https://cesium.readthedocs.org/en/latest/api/cesium.predict.html
 all accept featuresets from single- or multi-channel data, so no additional steps are
 required to train models or make predictions for multichannel featuresets using the
 &lt;code&gt;cesium&lt;/code&gt; library.&lt;/p&gt;
-&lt;h2 id="model-building"&gt;Model Building&lt;/h2&gt;
+&lt;h2&gt;Model Building&lt;/h2&gt;
 &lt;p&gt;Model building in &lt;code&gt;cesium&lt;/code&gt; is handled by the
 &lt;a href="https://cesium.readthedocs.org/en/latest/api/cesium.build_model.html#cesium.build_model.build_model_from_featureset"&gt;&lt;code&gt;build_model_from_featureset&lt;/code&gt;&lt;/a&gt;
 function in the &lt;code&gt;cesium.build_model&lt;/code&gt; submodule. The featureset output by
@@ -406,10 +404,10 @@ model; &lt;code&gt;build_model_from_featureset&lt;/code&gt; is simply a wrapper 
 given &lt;code&gt;scikit-learn&lt;/code&gt; model with the appropriate inputs. In the case of multichannel
 features, it also handles reshaping the featureset into a (rectangular) form that is
 compatible with &lt;code&gt;scikit-learn&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;For this example, we&amp;rsquo;ll test a random forest classifier for the built-in &lt;code&gt;cesium&lt;/code&gt; features,
+&lt;p&gt;For this example, we'll test a random forest classifier for the built-in &lt;code&gt;cesium&lt;/code&gt; features,
 and a 3-nearest neighbors classifier for the others, as suggested by &lt;a href="http://linkinghub.elsevier.com/retrieve/pii/S0957417411003253"&gt;Guo et al.
 (2012)&lt;/a&gt;.&lt;/p&gt;
-&lt;div class="highlight-python"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;cesium.build_model&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;build_model_from_featureset&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;cesium.build_model&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;build_model_from_featureset&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.ensemble&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;RandomForestClassifier&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.neighbors&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;KNeighborsClassifier&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.cross_validation&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;train_test_split&lt;/span&gt;
@@ -429,16 +427,15 @@ and a 3-nearest neighbors classifier for the others, as suggested by &lt;a href=
                                         &lt;span class="n"&gt;KNeighborsClassifier&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;
                                         &lt;span class="n"&gt;params_to_optimize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;knn_param_grid&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
 
 
-&lt;h2 id="prediction"&gt;Prediction&lt;/h2&gt;
+&lt;h2&gt;Prediction&lt;/h2&gt;
 &lt;p&gt;Making predictions for new time series based on these models follows the same pattern:
 first the time series are featurized using
 &lt;a href="https://cesium.readthedocs.org/en/latest/api/cesium.featurize.html#cesium.featurize.featurize_time_series"&gt;&lt;code&gt;featurize_timeseries&lt;/code&gt;&lt;/a&gt;,
 and then predictions are made based on these features using
 &lt;a href="https://cesium.readthedocs.org/en/latest/api/cesium.predict.html#cesium.predict.model_predictions"&gt;&lt;code&gt;predict.model_predictions&lt;/code&gt;&lt;/a&gt;,&lt;/p&gt;
-&lt;div class="highlight-python"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.metrics&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;accuracy_score&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.metrics&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;accuracy_score&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;cesium.predict&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;model_predictions&lt;/span&gt;
 
 &lt;span class="n"&gt;preds_cesium&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;model_predictions&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fset_cesium&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;model_cesium&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;return_probs&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -455,14 +452,12 @@ and then predictions are made based on these features using
           &lt;span class="n"&gt;accuracy_score&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;preds_dwt&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;train&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;eeg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;classes&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;train&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt;
           &lt;span class="n"&gt;accuracy_score&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;preds_dwt&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;eeg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;classes&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;])))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
 
 
-&lt;div class="highlight-output"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Built-in cesium features: training accuracy=100.00%, test accuracy=83.20%
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Built-in cesium features: training accuracy=100.00%, test accuracy=83.20%
 Guo et al. features: training accuracy=90.93%, test accuracy=84.80%
 Wavelet transform features: training accuracy=100.00%, test accuracy=95.20%
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
 
 
 &lt;p&gt;The workflow presented here is intentionally simplistic and omits many important steps
@@ -471,8 +466,12 @@ incorporated just as they would for any other &lt;code&gt;scikit-learn&lt;/code&
 But with essentially three function calls (&lt;code&gt;featurize_time_series&lt;/code&gt;,
 &lt;code&gt;build_model_from_featureset&lt;/code&gt;, and &lt;code&gt;model_predictions&lt;/code&gt;), we are able to build a
 model from a set of time series and make predictions on new, unlabeled data. In
-upcoming posts we&amp;rsquo;ll introduce the web frontend for &lt;code&gt;cesium&lt;/code&gt; and describe how
-the same analysis can be performed in a browser with no setup or coding required.&lt;/p&gt;</summary><category term="example"></category></entry><entry><title>Introducing cesium</title><link href="http://cesium.ml/blog/2016/07/08/introducing-cesium/" rel="alternate"></link><published>2016-07-08T00:00:00-07:00</published><updated>2016-07-08T00:00:00-07:00</updated><author><name>Cesium Developers</name></author><id>tag:cesium.ml,2016-07-08:blog/2016/07/08/introducing-cesium/</id><summary type="html">&lt;p&gt;From the reading of electroencephalograms (EEGs) to earthquake seismograms to light
+upcoming posts we'll introduce the web frontend for &lt;code&gt;cesium&lt;/code&gt; and describe how
+the same analysis can be performed in a browser with no setup or coding required.&lt;/p&gt;</content><category term="example"></category></entry><entry><title>Introducing cesium</title><link href="http://cesium-ml.org/blog/2016/07/08/introducing-cesium/" rel="alternate"></link><published>2016-07-08T00:00:00-07:00</published><updated>2016-07-08T00:00:00-07:00</updated><author><name>Cesium Developers</name></author><id>tag:cesium-ml.org,2016-07-08:/blog/2016/07/08/introducing-cesium/</id><summary type="html">&lt;p&gt;From the reading of electroencephalograms (EEGs) to earthquake seismograms to light
+curves of astronomical variable stars, gleaning insight from time series data
+has been central to a broad range of scientific and medical disciplines. When
+simple analytical thresholds or models suffice, technicians and
+experts can be easily removed from the …&lt;/p&gt;</summary><content type="html">&lt;p&gt;From the reading of electroencephalograms (EEGs) to earthquake seismograms to light
 curves of astronomical variable stars, gleaning insight from time series data
 has been central to a broad range of scientific and medical disciplines. When
 simple analytical thresholds or models suffice, technicians and
@@ -486,7 +485,7 @@ person have an irregular heartbeat? What type of supernova occurred in that
 galaxy?&lt;/em&gt; Even in the presence of sensor noise and intrinsic diversity of the
 samples, well-trained domain specialists show a remarkable ability to make
 discerning statements about the complex data.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="png" src="http://cesium.ml/blog/2016/07/08/introducing-cesium/images/cesium_intro.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="http://cesium-ml.org/blog/2016/07/08/introducing-cesium/images/cesium_intro.png"&gt;&lt;/p&gt;
 &lt;p&gt;In an era when more time series data are being collected than can be visually
 inspected by domain experts, however, computational frameworks must necessarily
 act as human surrogates. Capturing the subtleties that domain experts intuit in
@@ -498,20 +497,20 @@ analysis, and classification of medical data. Even if the results are similar,
 some obvious advantages over human involvement are that ML algorithms are
 tunable, repeatable, and deterministic. A computational framework built with
 elasticity can scale, whereas experts (and even crowdsourcing) cannot.&lt;/p&gt;
-&lt;h2 id="machine-learning-for-domain-science-time-series-inference"&gt;Machine learning for domain-science time series inference&lt;/h2&gt;
+&lt;h2&gt;Machine learning for domain-science time series inference&lt;/h2&gt;
 &lt;p&gt;Despite the importance of time series in scientific research, there are few
 resources available that allow domain scientists to easily build robust
 computational inference workflows for their own data, let alone data gathered
 more broadly in their field. &lt;/p&gt;
 &lt;p&gt;Traditional statistical models of time series are often too rigid to explain
 complex time domain behavior, while popular machine learning packages deal
-almost exclusively with &amp;lsquo;fixed-width&amp;rsquo; datasets requiring a uniform number of
+almost exclusively with 'fixed-width' datasets requiring a uniform number of
 pre-computed features. &lt;code&gt;cesium&lt;/code&gt; allows researchers to apply modern machine
 learning techniques to time series data in a way that is simple, easily
 reproducible, and extensible. Being a modern data-driven scientist should not,
 we believe, require an army of software engineers, machine learning experts,
 statisticians and production operators.&lt;/p&gt;
-&lt;h2 id="simplifying-the-analysis-workflow"&gt;Simplifying the analysis workflow&lt;/h2&gt;
+&lt;h2&gt;Simplifying the analysis workflow&lt;/h2&gt;
 &lt;p&gt;Building a functioning machine learning pipeline involves much more than
 choosing a mathematical model for your data. The goal of &lt;code&gt;cesium&lt;/code&gt; is to
 simplify the analysis pipeline so that scientists can spend less time solving
@@ -526,7 +525,7 @@ reproducible, so that an entire process of discovery can be shared with and
 reproduced by other researchers. Saved &lt;code&gt;cesium&lt;/code&gt; workflows are meant to be
 production-ready, meaning that comprehensive machine learning can be applied
 not just to data in retrospect but to live, streaming data as well.&lt;/p&gt;
-&lt;h2 id="scaling-to-large-datasets"&gt;Scaling to large datasets&lt;/h2&gt;
+&lt;h2&gt;Scaling to large datasets&lt;/h2&gt;
 &lt;p&gt;In many fields, the volumes of time series data available can be immense.
 &lt;code&gt;cesium&lt;/code&gt; makes the process of analyzing time series easily parallelizable and
 scaleable; scaling an analysis from a single system to a large cluster should
@@ -536,7 +535,7 @@ upload their data, perform analyses, and visualize their models all within the
 browser; and a Python library which exposes more flexible interfaces to the
 same analysis tools. The code for both the web frontend and Python library are
 open source and available on &lt;a href="https://github.com/cesium-ml"&gt;Github&lt;/a&gt;. In our
-next post, we&amp;rsquo;ll show how the Python library can be used to quickly solve a
+next post, we'll show how the Python library can be used to quickly solve a
 classic EEG classification problem.&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;With thanks to the National Science Foundation and the Gordon and Betty Moore
-Foundation for support.&lt;/em&gt;&lt;/p&gt;</summary></entry></feed>
+Foundation for support.&lt;/em&gt;&lt;/p&gt;</content></entry></feed>

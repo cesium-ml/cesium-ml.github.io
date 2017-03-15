@@ -8,15 +8,15 @@
     <meta name="description" content="">
     <meta name="author" content="Cesium Developers">
 
-    <link rel="stylesheet" href="http://cesium.ml/blog/theme/css/foundation.css" />
-    <link rel="stylesheet" href="http://cesium.ml/blog/theme/css/pygment/friendly.css" />
-    <link rel="stylesheet" href="http://cesium.ml/blog/theme/css/custom.css" />
+    <link rel="stylesheet" href="http://cesium-ml.org/blog/theme/css/foundation.css" />
+    <link rel="stylesheet" href="http://cesium-ml.org/blog/theme/css/pygment/friendly.css" />
+    <link rel="stylesheet" href="http://cesium-ml.org/blog/theme/css/custom.css" />
 
 
-    <script src="http://cesium.ml/blog/theme/js/modernizr.js"></script>
+    <script src="http://cesium-ml.org/blog/theme/js/modernizr.js"></script>
 
     <!-- Feeds -->
-    <link href="http://cesium.ml/blog/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Cesium Atom Feed" />
+    <link href="http://cesium-ml.org/blog/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Cesium Atom Feed" />
 
 <script type="text/javascript">
     var disqus_shortname = 'cesium-ml';
@@ -61,11 +61,11 @@
         <!-- mobile side bar nav -->
         <aside class="left-off-canvas-menu">
           <ul class="off-canvas-list">
-            <li><a href="http://cesium.ml/blog">Home</a></li>
+            <li><a href="http://cesium-ml.org/blog">Home</a></li>
             <li><label>Categories</label></li>
-              <li ><a href="http://cesium.ml/blog/category/cesium.html">cesium</a></li>
-              <li ><a href="http://cesium.ml/blog/category/engineering.html">engineering</a></li>
-              <li ><a href="http://cesium.ml/blog/category/misc.html">misc</a></li>
+              <li ><a href="http://cesium-ml.org/blog/category/cesium.html">cesium</a></li>
+              <li ><a href="http://cesium-ml.org/blog/category/engineering.html">engineering</a></li>
+              <li ><a href="http://cesium-ml.org/blog/category/misc.html">misc</a></li>
 
             <li><label>Links</label></li>
 
@@ -80,18 +80,18 @@
         <!-- top bar nav -->
         <nav class="top-bar hide-for-small-only" data-topbar>
           <ul class="title-area">
-              <a href="http://cesium.ml/blog/.."><img src="http://cesium.ml/blog/theme/img/cesium-blue-dark.png" style="height: 45px;
+              <a href="http://cesium-ml.org/blog/.."><img src="http://cesium-ml.org/blog/theme/img/cesium-blue-dark.png" style="height: 45px;
                   padding: 7.5px;"/></a>
             <li class="name">
-              <h1><a href="http://cesium.ml/blog/">Cesium</a></h1>
+              <h1><a href="http://cesium-ml.org/blog/">Cesium</a></h1>
             </li>
           </ul>
 
           <section class="top-bar-section">
             <ul class="left">
               <li><a href="https://github.com/cesium-ml/cesium">Code</a></li>
-              <li><a href="http://cesium.ml/blog/../docs">Documentation</a></li>
-              <li><a href="http://cesium.ml/blog">Blog</li>
+              <li><a href="http://cesium-ml.org/blog/../docs">Documentation</a></li>
+              <li><a href="http://cesium-ml.org/blog">Blog</li>
             </ul>
             <ul class="right">
 <!--              <li class="has-dropdown">
@@ -119,38 +119,31 @@
 <!-- building blocks from http://zurb.com/building-blocks -->
 <link rel="stylesheet" href="css/info_card.css" />
 
-<h1><br/><img src="http://cesium.ml/blog/theme/img/cesium-blue-light.png"
+<h1><br/><img src="http://cesium-ml.org/blog/theme/img/cesium-blue-light.png"
               style="height: 2em; padding-right: 0.5em;">Cesium</h1>
 <hr/>
 <h2>Open-Source Machine
   Learning for Time Series
   Analysis</br></h2>
 <hr/>
-
 <div class="row">
-  <div class="medium-6 columns">
+  <div class="medium-12 columns">
     <div class="box">
       <div class="info">
-        <h4 class="text-center">Library</h4>
-        
-        <p><em>The cesium library calculates
-          various <b>time-series features</b> for machine
-          learning.  Use it in combination
-          with scikit-learn
-          or any existing Python library.</em></p>
-        <a href="http://cesium.ml/docs/install.html" class="small button">Download</a>
-      </div>
-    </div>
-  </div>
-  
-  <div class="medium-6 columns">
-    <div class="box">
-      <div class="info">
-        <h4 class="text-center">Web Platform</h4>
-        <p><em>The cesium web platform allows <b>interactive
-          exploration</b> of machine learning pipelines.  Upload your
-          time series files, select your machine learning model, and watch
-          cesium do feature extraction and evaluation. </em></p>
+        <h4 class="text-center">About Cesium</h4>
+
+        <p><em>
+          Cesium is an end-to-end machine learning
+          platform for time-series, from calculation of features to model-building
+          to predictions. Cesium has two main components - a Python library,
+          and a web application platform that allows interactive exploration of
+          machine learning pipelines. Take control over the workflow in a Python
+          terminal or Jupyter notebook with the Cesium library,
+          or upload your time-series files, select
+          your machine learning model, and watch Cesium do feature extraction
+          and evaluation right in your browser with the web application.
+        </em></p>
+        <a href="http://cesium.ml/docs/install.html" class="small button">Download Library</a>
       </div>
     </div>
   </div>
@@ -158,9 +151,7 @@
   <div class="medium-12 columns" style="padding-top: 1em">
     <div class="box">
       <div class="info">
-        <h4 class="text-center">Try it out!</h4>
-        <img src="./blog/theme/img/cesium_20160714_screenshot.png"
-             style="padding-top: 1em; padding-bottom: 2em;"/>
+        <h4 class="text-center">Try out the Cesium web app!</h4>
         <ol>
           <li>Download the docker-compose file for Cesium:
             <pre>curl -Lo docker-compose.yml http://bit.ly/29GkVXY</pre>
@@ -187,6 +178,33 @@
     </div>
   </div>
 
+  <div class="medium-12 columns" style="padding-top: 1em">
+    <div class="box">
+      <div class="info">
+        <h4 class="text-center">Learn More</h4>
+        <p><em>
+          Explore the Cesium docs here.
+          </em></p>
+        <a href="http://cesium.ml/blog/../docs" class="small button">Documentation</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="medium-12 columns" style="padding-top: 1em">
+    <div class="box">
+      <div class="info">
+        <h4 class="text-center">How to Contribute</h4>
+        <p><em>
+          We gratefully accept contributions of new time-series features
+          (domain-specific or general) as well as new library / web app
+          functionality / features. Please see the following guidelines
+          for contributing.
+          </em></p>
+        <a href="https://github.com/cesium-ml/cesium/blob/master/CONTRIBUTING.md" class="small button">Contribute</a>
+      </div>
+    </div>
+  </div>
+
 </div>
 
             </div>
@@ -208,8 +226,8 @@
       </div><!--off-canvas inner-->
     </div><!--off-canvas wrap-->
 
-    <script src="http://cesium.ml/blog/theme/js/jquery.js"></script>
-    <script src="http://cesium.ml/blog/theme/js/foundation.min.js"></script>
+    <script src="http://cesium-ml.org/blog/theme/js/jquery.js"></script>
+    <script src="http://cesium-ml.org/blog/theme/js/foundation.min.js"></script>
     <script>
       $(document).foundation();
     </script>

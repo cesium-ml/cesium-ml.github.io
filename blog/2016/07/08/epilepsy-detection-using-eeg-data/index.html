@@ -8,15 +8,15 @@
     <meta name="description" content="">
     <meta name="author" content="Cesium Developers">
 
-    <link rel="stylesheet" href="http://cesium.ml/blog/theme/css/foundation.css" />
-    <link rel="stylesheet" href="http://cesium.ml/blog/theme/css/pygment/friendly.css" />
-    <link rel="stylesheet" href="http://cesium.ml/blog/theme/css/custom.css" />
+    <link rel="stylesheet" href="http://cesium-ml.org/blog/theme/css/foundation.css" />
+    <link rel="stylesheet" href="http://cesium-ml.org/blog/theme/css/pygment/friendly.css" />
+    <link rel="stylesheet" href="http://cesium-ml.org/blog/theme/css/custom.css" />
 
 
-    <script src="http://cesium.ml/blog/theme/js/modernizr.js"></script>
+    <script src="http://cesium-ml.org/blog/theme/js/modernizr.js"></script>
 
     <!-- Feeds -->
-    <link href="http://cesium.ml/blog/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Cesium Atom Feed" />
+    <link href="http://cesium-ml.org/blog/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Cesium Atom Feed" />
 
 <script type="text/javascript">
     var disqus_shortname = 'cesium-ml';
@@ -61,11 +61,11 @@
         <!-- mobile side bar nav -->
         <aside class="left-off-canvas-menu">
           <ul class="off-canvas-list">
-            <li><a href="http://cesium.ml/blog">Home</a></li>
+            <li><a href="http://cesium-ml.org/blog">Home</a></li>
             <li><label>Categories</label></li>
-              <li ><a href="http://cesium.ml/blog/category/cesium.html">cesium</a></li>
-              <li ><a href="http://cesium.ml/blog/category/engineering.html">engineering</a></li>
-              <li class="active"><a href="http://cesium.ml/blog/category/misc.html">misc</a></li>
+              <li ><a href="http://cesium-ml.org/blog/category/cesium.html">cesium</a></li>
+              <li ><a href="http://cesium-ml.org/blog/category/engineering.html">engineering</a></li>
+              <li class="active"><a href="http://cesium-ml.org/blog/category/misc.html">misc</a></li>
 
             <li><label>Links</label></li>
 
@@ -80,18 +80,18 @@
         <!-- top bar nav -->
         <nav class="top-bar hide-for-small-only" data-topbar>
           <ul class="title-area">
-              <a href="http://cesium.ml/blog/.."><img src="http://cesium.ml/blog/theme/img/cesium-blue-dark.png" style="height: 45px;
+              <a href="http://cesium-ml.org/blog/.."><img src="http://cesium-ml.org/blog/theme/img/cesium-blue-dark.png" style="height: 45px;
                   padding: 7.5px;"/></a>
             <li class="name">
-              <h1><a href="http://cesium.ml/blog/">Cesium</a></h1>
+              <h1><a href="http://cesium-ml.org/blog/">Cesium</a></h1>
             </li>
           </ul>
 
           <section class="top-bar-section">
             <ul class="left">
               <li><a href="https://github.com/cesium-ml/cesium">Code</a></li>
-              <li><a href="http://cesium.ml/blog/../docs">Documentation</a></li>
-              <li><a href="http://cesium.ml/blog">Blog</li>
+              <li><a href="http://cesium-ml.org/blog/../docs">Documentation</a></li>
+              <li><a href="http://cesium-ml.org/blog">Blog</li>
             </ul>
             <ul class="right">
 <!--              <li class="has-dropdown">
@@ -118,21 +118,21 @@
 <article>
 	<h1>Epilepsy Detection Using EEG Data</h1>
 	<blockquote>
-<p>IPython notebook: <a href="http://cesium.ml/blog/2016/07/08/epilepsy-detection-using-eeg-data/notebooks/EEG_Example.ipynb" download="EEG_Example.ipynb">download</a></p>
+<p>IPython notebook: <a href="http://cesium-ml.org/blog/2016/07/08/epilepsy-detection-using-eeg-data/notebooks/EEG_Example.ipynb" download="EEG_Example.ipynb">download</a></p>
 </blockquote>
-<p>In this example we&rsquo;ll use the <a href="http://github.com/cesium-ml/cesium/"><code>cesium</code></a> library to compare
+<p>In this example we'll use the <a href="http://github.com/cesium-ml/cesium/"><code>cesium</code></a> library to compare
 various techniques for epilepsy detection using a classic EEG time series dataset from
 <a href="http://www.meb.uni-bonn.de/epileptologie/science/physik/eegdata.html">Andrzejak et al.</a>.
 The raw data are separated into five classes: Z, O, N, F, and S; we will consider a
 three-class classification problem of distinguishing normal (Z, O), interictal (N, F), and
 ictal (S) signals.</p>
-<p>The overall workflow consists of three steps: first, we &ldquo;featurize&rdquo; the time series by
+<p>The overall workflow consists of three steps: first, we "featurize" the time series by
 selecting some set of mathematical functions to apply to each; next, we build some
 classification models which use these features to distinguish between classes;
 finally, we validate our models by generating predictions for some unseen
 holdout set and comparing them to the true class labels.</p>
-<p>First, we&rsquo;ll load the data and inspect a representative time series from each class:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<p>First, we'll load the data and inspect a representative time series from each class:</p>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span><span class="p">;</span> <span class="n">seaborn</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
@@ -153,20 +153,19 @@ holdout set and comparing them to the true class labels.</p>
     <span class="n">subplot</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;measurements&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
     <span class="n">subplot</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;time (s)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;signal&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
 </pre></div>
-</div>
 
 
-<p><img alt="png" src="http://cesium.ml/blog/2016/07/08/epilepsy-detection-using-eeg-data/images/EEG_Example_output_1_0.png" /></p>
-<h2 id="featurization">Featurization</h2>
+<p><img alt="png" src="http://cesium-ml.org/blog/2016/07/08/epilepsy-detection-using-eeg-data/images/EEG_Example_output_1_0.png"></p>
+<h2>Featurization</h2>
 <p>Once the data is loaded, we can generate features for each time series using the
 <a href="https://cesium.readthedocs.org/en/latest/api/cesium.featurize.html"><code>cesium.featurize</code></a>
 module. The <code>featurize</code> module includes many built-in choices of features which can be applied
-for any type of time series data; here we&rsquo;ve chosen a few generic features that do not have
+for any type of time series data; here we've chosen a few generic features that do not have
 any special biological significance.</p>
 <p>If Celery is running, the time series will automatically be split among the available workers
 and featurized in parallel; setting <code>use_celery=False</code> will cause the time series to be
 featurized serially.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cesium</span> <span class="kn">import</span> <span class="n">featurize</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cesium</span> <span class="kn">import</span> <span class="n">featurize</span>
 <span class="n">features_to_use</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;amplitude&#39;</span><span class="p">,</span>
                    <span class="s1">&#39;percent_beyond_1_std&#39;</span><span class="p">,</span>
                    <span class="s1">&#39;maximum&#39;</span><span class="p">,</span>
@@ -185,10 +184,9 @@ featurized serially.</p>
                                               <span class="n">targets</span><span class="o">=</span><span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">],</span> <span class="n">use_celery</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">fset_cesium</span><span class="p">)</span>
 </pre></div>
-</div>
 
 
-<div class="highlight-output"><div class="highlight"><pre><span></span>&lt;xarray.Dataset&gt;
+<div class="highlight"><pre><span></span>&lt;xarray.Dataset&gt;
 Dimensions:                    (channel: 1, name: 500)
 Coordinates:
   * channel                    (channel) int64 0
@@ -207,7 +205,6 @@ Data variables:
     weighted_average           (name, channel) float64 -4.132 -52.44 12.71 ...
     std                        (name, channel) float64 40.41 48.81 47.14 ...
 </pre></div>
-</div>
 
 
 <p>The output of
@@ -216,16 +213,16 @@ is an <code>xarray.Dataset</code> which contains all the feature information nee
 learning model: feature values are stored as data variables, and the time series index/class
 label are stored as coordinates (a <code>channel</code> coordinate will also be used later for
 multi-channel data).</p>
-<h3 id="custom-feature-functions">Custom feature functions</h3>
+<h3>Custom feature functions</h3>
 <p>Custom feature functions not built into <code>cesium</code> may be passed in using the
 <code>custom_functions</code> keyword, either as a dictionary <code>{feature_name: function}</code>, or as a
 <a href="http://dask.pydata.org/en/latest/custom-graphs.html">dask graph</a>. Functions should take
 three arrays <code>times, measurements, errors</code> as inputs; details can be found in the
 <code>cesium.featurize</code>
 <a href="https://cesium.readthedocs.org/en/latest/api/cesium.featurize.html">documentation</a>.
-Here we&rsquo;ll compute five standard features for EEG analysis provided by <a href="http://linkinghub.elsevier.com/retrieve/pii/S0957417411003253">Guo et al.
+Here we'll compute five standard features for EEG analysis provided by <a href="http://linkinghub.elsevier.com/retrieve/pii/S0957417411003253">Guo et al.
 (2012)</a>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.stats</span>
 
 <span class="k">def</span> <span class="nf">mean_signal</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
@@ -243,12 +240,11 @@ Here we&rsquo;ll compute five standard features for EEG analysis provided by <a 
 <span class="k">def</span> <span class="nf">skew_signal</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">skew</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
 </pre></div>
-</div>
 
 
-<p>Now we&rsquo;ll pass the desired feature functions as a dictionary via the <code>custom_functions</code>
+<p>Now we'll pass the desired feature functions as a dictionary via the <code>custom_functions</code>
 keyword argument.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">guo_features</span> <span class="o">=</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="n">guo_features</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="n">mean_signal</span><span class="p">,</span>
     <span class="s1">&#39;std&#39;</span><span class="p">:</span> <span class="n">std_signal</span><span class="p">,</span>
     <span class="s1">&#39;mean2&#39;</span><span class="p">:</span> <span class="n">mean_square_signal</span><span class="p">,</span>
@@ -263,10 +259,9 @@ keyword argument.</p>
                                            <span class="n">use_celery</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">fset_guo</span><span class="p">)</span>
 </pre></div>
-</div>
 
 
-<div class="highlight-output"><div class="highlight"><pre><span></span>&lt;xarray.Dataset&gt;
+<div class="highlight"><pre><span></span>&lt;xarray.Dataset&gt;
 Dimensions:    (channel: 1, name: 500)
 Coordinates:
   * channel    (channel) int64 0
@@ -279,10 +274,9 @@ Data variables:
     skew       (name, channel) float64 0.0328 -0.09271 -0.0041 0.06368 ...
     std        (name, channel) float64 40.41 48.81 47.14 47.07 44.91 45.02 ...
 </pre></div>
-</div>
 
 
-<h3 id="multi-channel-time-series">Multi-channel time series</h3>
+<h3>Multi-channel time series</h3>
 <p>The EEG time series considered here consist of univariate signal measurements along a
 uniform time grid. But
 <a href="https://cesium.readthedocs.org/en/latest/api/cesium.featurize.html#cesium.featurize.featurize_time_series"><code>featurize_time_series</code></a>
@@ -290,7 +284,7 @@ also accepts multi-channel data; to demonstrate this, we will decompose each sig
 five frequency bands using a discrete wavelet transform as suggested by <a href="http://www.sciencedirect.com/science/article/pii/S0957417404001745">Subasi
 (2005)</a>, and then
 featurize each band separately using the five functions from above.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pywt</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pywt</span>
 
 <span class="n">n_channels</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;dwts&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">pywt</span><span class="o">.</span><span class="n">wavedec</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">pywt</span><span class="o">.</span><span class="n">Wavelet</span><span class="p">(</span><span class="s1">&#39;db1&#39;</span><span class="p">),</span> <span class="n">level</span><span class="o">=</span><span class="n">n_channels</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
@@ -301,10 +295,9 @@ featurize each band separately using the five functions from above.</p>
                                            <span class="n">custom_functions</span><span class="o">=</span><span class="n">guo_features</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">fset_dwt</span><span class="p">)</span>
 </pre></div>
-</div>
 
 
-<div class="highlight-output"><div class="highlight"><pre><span></span>&lt;xarray.Dataset&gt;
+<div class="highlight"><pre><span></span>&lt;xarray.Dataset&gt;
 Dimensions:    (channel: 5, name: 500)
 Coordinates:
   * channel    (channel) int64 0 1 2 3 4
@@ -317,7 +310,6 @@ Data variables:
     mean       (name, channel) float64 -17.08 -6.067 -0.9793 0.1546 0.03555 ...
     std        (name, channel) float64 112.5 72.97 48.17 25.77 10.15 119.8 ...
 </pre></div>
-</div>
 
 
 <p>The output featureset has the same form as before, except now the <code>channel</code> coordinate is
@@ -327,7 +319,7 @@ and <a href="https://cesium.readthedocs.org/en/latest/api/cesium.predict.html"><
 all accept featuresets from single- or multi-channel data, so no additional steps are
 required to train models or make predictions for multichannel featuresets using the
 <code>cesium</code> library.</p>
-<h2 id="model-building">Model Building</h2>
+<h2>Model Building</h2>
 <p>Model building in <code>cesium</code> is handled by the
 <a href="https://cesium.readthedocs.org/en/latest/api/cesium.build_model.html#cesium.build_model.build_model_from_featureset"><code>build_model_from_featureset</code></a>
 function in the <code>cesium.build_model</code> submodule. The featureset output by
@@ -337,10 +329,10 @@ model; <code>build_model_from_featureset</code> is simply a wrapper that calls t
 given <code>scikit-learn</code> model with the appropriate inputs. In the case of multichannel
 features, it also handles reshaping the featureset into a (rectangular) form that is
 compatible with <code>scikit-learn</code>.</p>
-<p>For this example, we&rsquo;ll test a random forest classifier for the built-in <code>cesium</code> features,
+<p>For this example, we'll test a random forest classifier for the built-in <code>cesium</code> features,
 and a 3-nearest neighbors classifier for the others, as suggested by <a href="http://linkinghub.elsevier.com/retrieve/pii/S0957417411003253">Guo et al.
 (2012)</a>.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cesium.build_model</span> <span class="kn">import</span> <span class="n">build_model_from_featureset</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cesium.build_model</span> <span class="kn">import</span> <span class="n">build_model_from_featureset</span>
 <span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
 <span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
 <span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">train_test_split</span>
@@ -360,16 +352,15 @@ and a 3-nearest neighbors classifier for the others, as suggested by <a href="ht
                                         <span class="n">KNeighborsClassifier</span><span class="p">(),</span>
                                         <span class="n">params_to_optimize</span><span class="o">=</span><span class="n">knn_param_grid</span><span class="p">)</span>
 </pre></div>
-</div>
 
 
-<h2 id="prediction">Prediction</h2>
+<h2>Prediction</h2>
 <p>Making predictions for new time series based on these models follows the same pattern:
 first the time series are featurized using
 <a href="https://cesium.readthedocs.org/en/latest/api/cesium.featurize.html#cesium.featurize.featurize_time_series"><code>featurize_timeseries</code></a>,
 and then predictions are made based on these features using
 <a href="https://cesium.readthedocs.org/en/latest/api/cesium.predict.html#cesium.predict.model_predictions"><code>predict.model_predictions</code></a>,</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
 <span class="kn">from</span> <span class="nn">cesium.predict</span> <span class="kn">import</span> <span class="n">model_predictions</span>
 
 <span class="n">preds_cesium</span> <span class="o">=</span> <span class="n">model_predictions</span><span class="p">(</span><span class="n">fset_cesium</span><span class="p">,</span> <span class="n">model_cesium</span><span class="p">,</span> <span class="n">return_probs</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
@@ -386,14 +377,12 @@ and then predictions are made based on these features using
           <span class="n">accuracy_score</span><span class="p">(</span><span class="n">preds_dwt</span><span class="p">[</span><span class="n">train</span><span class="p">],</span> <span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">][</span><span class="n">train</span><span class="p">]),</span>
           <span class="n">accuracy_score</span><span class="p">(</span><span class="n">preds_dwt</span><span class="p">[</span><span class="n">test</span><span class="p">],</span> <span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">][</span><span class="n">test</span><span class="p">])))</span>
 </pre></div>
-</div>
 
 
-<div class="highlight-output"><div class="highlight"><pre><span></span>Built-in cesium features: training accuracy=100.00%, test accuracy=83.20%
+<div class="highlight"><pre><span></span>Built-in cesium features: training accuracy=100.00%, test accuracy=83.20%
 Guo et al. features: training accuracy=90.93%, test accuracy=84.80%
 Wavelet transform features: training accuracy=100.00%, test accuracy=95.20%
 </pre></div>
-</div>
 
 
 <p>The workflow presented here is intentionally simplistic and omits many important steps
@@ -402,10 +391,10 @@ incorporated just as they would for any other <code>scikit-learn</code> analysis
 But with essentially three function calls (<code>featurize_time_series</code>,
 <code>build_model_from_featureset</code>, and <code>model_predictions</code>), we are able to build a
 model from a set of time series and make predictions on new, unlabeled data. In
-upcoming posts we&rsquo;ll introduce the web frontend for <code>cesium</code> and describe how
+upcoming posts we'll introduce the web frontend for <code>cesium</code> and describe how
 the same analysis can be performed in a browser with no setup or coding required.</p>
 	<hr/>
-	<h6>Written by <a href="http://cesium.ml/blog/author/cesium-developers.html">Cesium Developers</a> in <a href="http://cesium.ml/blog/category/misc.html">misc</a> on Fri 08 July 2016. Tags: <a href="http://cesium.ml/blog/tag/example.html">example</a>, </h6>
+	<h6>Written by <a href="http://cesium-ml.org/blog/author/cesium-developers.html">Cesium Developers</a> in <a href="http://cesium-ml.org/blog/category/misc.html">misc</a> on Fri 08 July 2016. Tags: <a href="http://cesium-ml.org/blog/tag/example.html">example</a>, </h6>
 </article>
 
 <hr/>
@@ -439,9 +428,9 @@ the same analysis can be performed in a browser with no setup or coding required
               <div class="panel">
                 <h5>Categories</h5>
                 <ul class="tag-cloud">
-                  <li ><a href="http://cesium.ml/blog/category/cesium.html">cesium</a></li>
-                  <li ><a href="http://cesium.ml/blog/category/engineering.html">engineering</a></li>
-                  <li class="active"><a href="http://cesium.ml/blog/category/misc.html">misc</a></li>
+                  <li ><a href="http://cesium-ml.org/blog/category/cesium.html">cesium</a></li>
+                  <li ><a href="http://cesium-ml.org/blog/category/engineering.html">engineering</a></li>
+                  <li class="active"><a href="http://cesium-ml.org/blog/category/misc.html">misc</a></li>
                 </ul>
               </div>
 
@@ -471,8 +460,8 @@ the same analysis can be performed in a browser with no setup or coding required
       </div><!--off-canvas inner-->
     </div><!--off-canvas wrap-->
 
-    <script src="http://cesium.ml/blog/theme/js/jquery.js"></script>
-    <script src="http://cesium.ml/blog/theme/js/foundation.min.js"></script>
+    <script src="http://cesium-ml.org/blog/theme/js/jquery.js"></script>
+    <script src="http://cesium-ml.org/blog/theme/js/foundation.min.js"></script>
     <script>
       $(document).foundation();
     </script>
