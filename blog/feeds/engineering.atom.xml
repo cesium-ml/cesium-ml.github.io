@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Cesium - engineering</title><link href="http://cesium-ml.org/blog/" rel="alternate"></link><link href="http://cesium-ml.org/blog/feeds/engineering.atom.xml" rel="self"></link><id>http://cesium-ml.org/blog/</id><updated>2016-07-13T00:00:00-07:00</updated><entry><title>A Pattern for Websockets in Python</title><link href="http://cesium-ml.org/blog/2016/07/13/a-pattern-for-websockets-in-python/" rel="alternate"></link><published>2016-07-13T00:00:00-07:00</published><updated>2016-07-13T00:00:00-07:00</updated><author><name>Cesium Developers</name></author><id>tag:cesium-ml.org,2016-07-13:/blog/2016/07/13/a-pattern-for-websockets-in-python/</id><summary type="html">&lt;p&gt;Using long polling and other workarounds to deal with
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Cesium - engineering</title><link href="https://cesium-ml.org/blog/" rel="alternate"></link><link href="https://cesium-ml.org/blog/feeds/engineering.atom.xml" rel="self"></link><id>https://cesium-ml.org/blog/</id><updated>2016-07-13T00:00:00-07:00</updated><entry><title>A Pattern for Websockets in Python</title><link href="https://cesium-ml.org/blog/2016/07/13/a-pattern-for-websockets-in-python/" rel="alternate"></link><published>2016-07-13T00:00:00-07:00</published><updated>2016-07-13T00:00:00-07:00</updated><author><name>Cesium Developers</name></author><id>tag:cesium-ml.org,2016-07-13:/blog/2016/07/13/a-pattern-for-websockets-in-python/</id><summary type="html">&lt;p&gt;Using long polling and other workarounds to deal with
 long-running tasks is less than optimal.  We explore a
 pattern for easy deployment of WebSockets in Python web
 applications, through the combination of various
 micro-services.&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;em&gt;This post is part of a series of articles on the infrastructure
-underlying &lt;a href="http://cesium-ml.org"&gt;cesium&lt;/a&gt;.  Please send us your feedback
+underlying &lt;a href="https://cesium-ml.org"&gt;cesium&lt;/a&gt;.  Please send us your feedback
 in the comments section below.&lt;/em&gt;&lt;/p&gt;
 &lt;h2&gt;Motivation&lt;/h2&gt;
 &lt;p&gt;Traditionally, web frontends communicate with backends via API
@@ -37,7 +37,7 @@ frontend to backend via API calls, and from backend to frontend via
 WebSocket communication.&lt;/p&gt;
 &lt;h2&gt;Building blocks&lt;/h2&gt;
 &lt;p&gt;The following diagram shows the different components of the system:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Message Flow Layout" src="http://cesium-ml.org/blog/2016/07/13/a-pattern-for-websockets-in-python/images/cesium_message_flow.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Message Flow Layout" src="https://cesium-ml.org/blog/2016/07/13/a-pattern-for-websockets-in-python/images/cesium_message_flow.png"&gt;&lt;/p&gt;
 &lt;p&gt;There are two primary server pools: web servers, and web socket
 servers.  The web servers can be any WSGI compatible server,
 e.g. Flask, Django, Pyramid, etc.  The WebSocket server consists of
@@ -105,34 +105,31 @@ adopt this pattern in your own code as follows:&lt;/p&gt;
 &lt;li&gt;Modify your existing web application to have an API endpoint
    &lt;code&gt;/socket_auth_token&lt;/code&gt;.  This endpoint should return:&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;jwt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;username&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;get_username&lt;/span&gt;&lt;span class="p"&gt;()},&lt;/span&gt; &lt;span class="n"&gt;app_secret_key&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;jwt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;username&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;get_username&lt;/span&gt;&lt;span class="p"&gt;()},&lt;/span&gt; &lt;span class="n"&gt;app_secret_key&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Include &lt;code&gt;reconnecting-websocket&lt;/code&gt; and &lt;code&gt;websocket.js&lt;/code&gt; (from our
   repository) in your HTML header:&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.min.js&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.min.js&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
 &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/static/js/websocket.js&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Modify your landing page to have &lt;code&gt;connected&lt;/code&gt; and &lt;code&gt;authenticated&lt;/code&gt; divs:&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
   &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;b&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;WebSocket Connection: &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;b&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;connected&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Offline&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
   &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;b&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;WebSocket Authenticated: &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;b&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;authenticated&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;No&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;span&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
 &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Implement a basic event handler in your landing page to take care
 of incoming messages on the WebSocket:&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
   &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;messageHandler&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="k"&gt;switch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;id&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
       &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;EXAMPLE ID&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
@@ -144,19 +141,17 @@ of incoming messages on the WebSocket:&lt;/li&gt;
       &lt;span class="p"&gt;}&lt;/span&gt;
   &lt;span class="p"&gt;};&lt;/span&gt;
 &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;And hook it up:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
-  $(document).ready(function() {
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;ready&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     ws = createSocket(&amp;quot;ws://&amp;quot; + {{ request.host|tojson|safe }} + &amp;quot;/websocket&amp;quot;,
                       messageHandler
     );
   }
 &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;
@@ -185,4 +180,4 @@ with the ultimate purpose of implementing Flux with React components.
 This is easy in Javascript with isomorphic applications, but harder
 when the backend is running Python.&lt;/p&gt;
 &lt;p&gt;Please let us know what you think of this pattern in the comments
-section below.  We'd love to learn how to do it better!&lt;/p&gt;</content></entry></feed>
+section below.  We'd love to learn how to do it better!&lt;/p&gt;</content><category term="engineering"></category></entry></feed>

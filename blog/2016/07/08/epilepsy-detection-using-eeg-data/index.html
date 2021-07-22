@@ -8,15 +8,15 @@
     <meta name="description" content="">
     <meta name="author" content="Cesium Developers">
 
-    <link rel="stylesheet" href="http://cesium-ml.org/blog/theme/css/foundation.css" />
-    <link rel="stylesheet" href="http://cesium-ml.org/blog/theme/css/pygment/friendly.css" />
-    <link rel="stylesheet" href="http://cesium-ml.org/blog/theme/css/custom.css" />
+    <link rel="stylesheet" href="https://cesium-ml.org/blog/theme/css/foundation.css" />
+    <link rel="stylesheet" href="https://cesium-ml.org/blog/theme/css/pygment/friendly.css" />
+    <link rel="stylesheet" href="https://cesium-ml.org/blog/theme/css/custom.css" />
 
 
-    <script src="http://cesium-ml.org/blog/theme/js/modernizr.js"></script>
+    <script src="https://cesium-ml.org/blog/theme/js/modernizr.js"></script>
 
     <!-- Feeds -->
-    <link href="http://cesium-ml.org/blog/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Cesium Atom Feed" />
+    <link href="https://cesium-ml.org/blog/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Cesium Atom Feed" />
 
 <script type="text/javascript">
     var disqus_shortname = 'cesium-ml';
@@ -61,11 +61,11 @@
         <!-- mobile side bar nav -->
         <aside class="left-off-canvas-menu">
           <ul class="off-canvas-list">
-            <li><a href="http://cesium-ml.org/blog">Home</a></li>
+            <li><a href="https://cesium-ml.org/blog">Home</a></li>
             <li><label>Categories</label></li>
-              <li ><a href="http://cesium-ml.org/blog/category/cesium.html">cesium</a></li>
-              <li ><a href="http://cesium-ml.org/blog/category/engineering.html">engineering</a></li>
-              <li class="active"><a href="http://cesium-ml.org/blog/category/misc.html">misc</a></li>
+              <li ><a href="https://cesium-ml.org/blog/category/cesium.html">cesium</a></li>
+              <li ><a href="https://cesium-ml.org/blog/category/engineering.html">engineering</a></li>
+              <li class="active"><a href="https://cesium-ml.org/blog/category/misc.html">misc</a></li>
 
             <li><label>Links</label></li>
 
@@ -80,18 +80,18 @@
         <!-- top bar nav -->
         <nav class="top-bar hide-for-small-only" data-topbar>
           <ul class="title-area">
-              <a href="http://cesium-ml.org/blog/.."><img src="http://cesium-ml.org/blog/theme/img/cesium-blue-dark.png" style="height: 45px;
+              <a href="https://cesium-ml.org/blog/.."><img src="https://cesium-ml.org/blog/theme/img/cesium-blue-dark.png" style="height: 45px;
                   padding: 7.5px;"/></a>
             <li class="name">
-              <h1><a href="http://cesium-ml.org/blog/">Cesium</a></h1>
+              <h1><a href="https://cesium-ml.org/blog/">Cesium</a></h1>
             </li>
           </ul>
 
           <section class="top-bar-section">
             <ul class="left">
               <li><a href="https://github.com/cesium-ml/cesium">Code</a></li>
-              <li><a href="http://cesium-ml.org/blog/../docs">Documentation</a></li>
-              <li><a href="http://cesium-ml.org/blog">Blog</li>
+              <li><a href="https://cesium-ml.org/blog/../docs">Documentation</a></li>
+              <li><a href="https://cesium-ml.org/blog">Blog</li>
             </ul>
             <ul class="right">
 <!--              <li class="has-dropdown">
@@ -118,7 +118,7 @@
 <article>
 	<h1>Epilepsy Detection Using EEG Data</h1>
 	<blockquote>
-<p>IPython notebook: <a href="http://cesium-ml.org/blog/2016/07/08/epilepsy-detection-using-eeg-data/notebooks/EEG_Example.ipynb" download="EEG_Example.ipynb">download</a></p>
+<p>IPython notebook: <a href="https://cesium-ml.org/blog/2016/07/08/epilepsy-detection-using-eeg-data/notebooks/EEG_Example.ipynb" download="EEG_Example.ipynb">download</a></p>
 </blockquote>
 <p>In this example we'll use the <a href="http://github.com/cesium-ml/cesium/"><code>cesium</code></a> library to compare
 various techniques for epilepsy detection using a classic EEG time series dataset from
@@ -132,9 +132,9 @@ classification models which use these features to distinguish between classes;
 finally, we validate our models by generating predictions for some unseen
 holdout set and comparing them to the true class labels.</p>
 <p>First, we'll load the data and inspect a representative time series from each class:</p>
-<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<div class="highlight"><pre><span></span><code><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span><span class="p">;</span> <span class="n">seaborn</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
 
 <span class="kn">from</span> <span class="nn">cesium</span> <span class="kn">import</span> <span class="n">datasets</span>
@@ -147,15 +147,14 @@ holdout set and comparing them to the true class labels.</p>
 <span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;F&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="s2">&quot;Interictal&quot;</span>
 <span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">][</span><span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;S&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Ictal&quot;</span>
 
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">])),</span> <span class="n">sharey</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">])),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">subplot</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">]),</span> <span class="n">ax</span><span class="p">):</span>
     <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">label</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">subplot</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;measurements&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
     <span class="n">subplot</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;time (s)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;signal&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
-
-<p><img alt="png" src="http://cesium-ml.org/blog/2016/07/08/epilepsy-detection-using-eeg-data/images/EEG_Example_output_1_0.png"></p>
+<p><img alt="png" src="https://cesium-ml.org/blog/2016/07/08/epilepsy-detection-using-eeg-data/images/EEG_Example_output_1_0.png"></p>
 <h2>Featurization</h2>
 <p>Once the data is loaded, we can generate features for each time series using the
 <a href="https://cesium.readthedocs.org/en/latest/api/cesium.featurize.html"><code>cesium.featurize</code></a>
@@ -165,7 +164,7 @@ any special biological significance.</p>
 <p>If Celery is running, the time series will automatically be split among the available workers
 and featurized in parallel; setting <code>use_celery=False</code> will cause the time series to be
 featurized serially.</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cesium</span> <span class="kn">import</span> <span class="n">featurize</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">cesium</span> <span class="kn">import</span> <span class="n">featurize</span>
 <span class="n">features_to_use</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;amplitude&#39;</span><span class="p">,</span>
                    <span class="s1">&#39;percent_beyond_1_std&#39;</span><span class="p">,</span>
                    <span class="s1">&#39;maximum&#39;</span><span class="p">,</span>
@@ -179,33 +178,31 @@ featurized serially.</p>
                    <span class="s1">&#39;weighted_average&#39;</span><span class="p">]</span>
 <span class="n">fset_cesium</span> <span class="o">=</span> <span class="n">featurize</span><span class="o">.</span><span class="n">featurize_time_series</span><span class="p">(</span><span class="n">times</span><span class="o">=</span><span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">],</span>
                                               <span class="n">values</span><span class="o">=</span><span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;measurements&quot;</span><span class="p">],</span>
-                                              <span class="n">errors</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                                              <span class="n">errors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                               <span class="n">features_to_use</span><span class="o">=</span><span class="n">features_to_use</span><span class="p">,</span>
-                                              <span class="n">targets</span><span class="o">=</span><span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">],</span> <span class="n">use_celery</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">fset_cesium</span><span class="p">)</span>
-</pre></div>
+                                              <span class="n">targets</span><span class="o">=</span><span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">],</span> <span class="n">use_celery</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fset_cesium</span><span class="p">)</span>
+</code></pre></div>
 
-
-<div class="highlight"><pre><span></span>&lt;xarray.Dataset&gt;
-Dimensions:                    (channel: 1, name: 500)
-Coordinates:
-  * channel                    (channel) int64 0
-  * name                       (name) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 ...
-    target                     (name) object &#39;Normal&#39; &#39;Normal&#39; &#39;Normal&#39; ...
-Data variables:
-    minimum                    (name, channel) float64 -146.0 -254.0 -146.0 ...
-    amplitude                  (name, channel) float64 143.5 211.5 165.0 ...
-    median_absolute_deviation  (name, channel) float64 28.0 32.0 31.0 31.0 ...
-    percent_beyond_1_std       (name, channel) float64 0.1626 0.1455 0.1523 ...
-    maximum                    (name, channel) float64 141.0 169.0 184.0 ...
-    median                     (name, channel) float64 -4.0 -51.0 13.0 -4.0 ...
-    percent_close_to_median    (name, channel) float64 0.505 0.6405 0.516 ...
-    max_slope                  (name, channel) float64 1.111e+04 2.065e+04 ...
-    skew                       (name, channel) float64 0.0328 -0.09271 ...
-    weighted_average           (name, channel) float64 -4.132 -52.44 12.71 ...
-    std                        (name, channel) float64 40.41 48.81 47.14 ...
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="o">&gt;</span>
+<span class="n">Dimensions</span><span class="p">:</span>                    <span class="p">(</span><span class="n">channel</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="mi">500</span><span class="p">)</span>
+<span class="n">Coordinates</span><span class="p">:</span>
+  <span class="o">*</span> <span class="n">channel</span>                    <span class="p">(</span><span class="n">channel</span><span class="p">)</span> <span class="n">int64</span> <span class="mi">0</span>
+  <span class="o">*</span> <span class="n">name</span>                       <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">int64</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span> <span class="mi">10</span> <span class="mi">11</span> <span class="mi">12</span> <span class="mi">13</span> <span class="o">...</span>
+    <span class="n">target</span>                     <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">object</span> <span class="s1">&#39;Normal&#39;</span> <span class="s1">&#39;Normal&#39;</span> <span class="s1">&#39;Normal&#39;</span> <span class="o">...</span>
+<span class="n">Data</span> <span class="n">variables</span><span class="p">:</span>
+    <span class="n">minimum</span>                    <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="n">float64</span> <span class="o">-</span><span class="mf">146.0</span> <span class="o">-</span><span class="mf">254.0</span> <span class="o">-</span><span class="mf">146.0</span> <span class="o">...</span>
+    <span class="n">amplitude</span>                  <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="n">float64</span> <span class="mf">143.5</span> <span class="mf">211.5</span> <span class="mf">165.0</span> <span class="o">...</span>
+    <span class="n">median_absolute_deviation</span>  <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="n">float64</span> <span class="mf">28.0</span> <span class="mf">32.0</span> <span class="mf">31.0</span> <span class="mf">31.0</span> <span class="o">...</span>
+    <span class="n">percent_beyond_1_std</span>       <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="n">float64</span> <span class="mf">0.1626</span> <span class="mf">0.1455</span> <span class="mf">0.1523</span> <span class="o">...</span>
+    <span class="n">maximum</span>                    <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="n">float64</span> <span class="mf">141.0</span> <span class="mf">169.0</span> <span class="mf">184.0</span> <span class="o">...</span>
+    <span class="n">median</span>                     <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="n">float64</span> <span class="o">-</span><span class="mf">4.0</span> <span class="o">-</span><span class="mf">51.0</span> <span class="mf">13.0</span> <span class="o">-</span><span class="mf">4.0</span> <span class="o">...</span>
+    <span class="n">percent_close_to_median</span>    <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="n">float64</span> <span class="mf">0.505</span> <span class="mf">0.6405</span> <span class="mf">0.516</span> <span class="o">...</span>
+    <span class="n">max_slope</span>                  <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="n">float64</span> <span class="mf">1.111e+04</span> <span class="mf">2.065e+04</span> <span class="o">...</span>
+    <span class="n">skew</span>                       <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="n">float64</span> <span class="mf">0.0328</span> <span class="o">-</span><span class="mf">0.09271</span> <span class="o">...</span>
+    <span class="n">weighted_average</span>           <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="n">float64</span> <span class="o">-</span><span class="mf">4.132</span> <span class="o">-</span><span class="mf">52.44</span> <span class="mf">12.71</span> <span class="o">...</span>
+    <span class="n">std</span>                        <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="n">float64</span> <span class="mf">40.41</span> <span class="mf">48.81</span> <span class="mf">47.14</span> <span class="o">...</span>
+</code></pre></div>
 
 <p>The output of
 <a href="https://cesium.readthedocs.org/en/latest/api/cesium.featurize.html#cesium.featurize.featurize_time_series"><code>featurize_time_series</code></a>
@@ -222,7 +219,7 @@ three arrays <code>times, measurements, errors</code> as inputs; details can be 
 <a href="https://cesium.readthedocs.org/en/latest/api/cesium.featurize.html">documentation</a>.
 Here we'll compute five standard features for EEG analysis provided by <a href="http://linkinghub.elsevier.com/retrieve/pii/S0957417411003253">Guo et al.
 (2012)</a>:</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.stats</span>
 
 <span class="k">def</span> <span class="nf">mean_signal</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
@@ -239,12 +236,11 @@ Here we'll compute five standard features for EEG analysis provided by <a href="
 
 <span class="k">def</span> <span class="nf">skew_signal</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">skew</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Now we'll pass the desired feature functions as a dictionary via the <code>custom_functions</code>
 keyword argument.</p>
-<div class="highlight"><pre><span></span><span class="n">guo_features</span> <span class="o">=</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="n">guo_features</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="n">mean_signal</span><span class="p">,</span>
     <span class="s1">&#39;std&#39;</span><span class="p">:</span> <span class="n">std_signal</span><span class="p">,</span>
     <span class="s1">&#39;mean2&#39;</span><span class="p">:</span> <span class="n">mean_square_signal</span><span class="p">,</span>
@@ -253,28 +249,26 @@ keyword argument.</p>
 <span class="p">}</span>
 
 <span class="n">fset_guo</span> <span class="o">=</span> <span class="n">featurize</span><span class="o">.</span><span class="n">featurize_time_series</span><span class="p">(</span><span class="n">times</span><span class="o">=</span><span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">],</span> <span class="n">values</span><span class="o">=</span><span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;measurements&quot;</span><span class="p">],</span>
-                                           <span class="n">errors</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">],</span> 
+                                           <span class="n">errors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">],</span> 
                                            <span class="n">features_to_use</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">guo_features</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span>
                                            <span class="n">custom_functions</span><span class="o">=</span><span class="n">guo_features</span><span class="p">,</span>
-                                           <span class="n">use_celery</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">fset_guo</span><span class="p">)</span>
-</pre></div>
+                                           <span class="n">use_celery</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fset_guo</span><span class="p">)</span>
+</code></pre></div>
 
-
-<div class="highlight"><pre><span></span>&lt;xarray.Dataset&gt;
-Dimensions:    (channel: 1, name: 500)
-Coordinates:
-  * channel    (channel) int64 0
-  * name       (name) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 ...
-    target     (name) object &#39;Normal&#39; &#39;Normal&#39; &#39;Normal&#39; &#39;Normal&#39; &#39;Normal&#39; ...
-Data variables:
-    abs_diffs  (name, channel) float64 4.695e+04 6.112e+04 5.127e+04 ...
-    mean       (name, channel) float64 -4.132 -52.44 12.71 -3.992 -18.0 ...
-    mean2      (name, channel) float64 1.65e+03 5.133e+03 2.384e+03 ...
-    skew       (name, channel) float64 0.0328 -0.09271 -0.0041 0.06368 ...
-    std        (name, channel) float64 40.41 48.81 47.14 47.07 44.91 45.02 ...
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="o">&gt;</span>
+<span class="n">Dimensions</span><span class="p">:</span>    <span class="p">(</span><span class="n">channel</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="mi">500</span><span class="p">)</span>
+<span class="n">Coordinates</span><span class="p">:</span>
+  <span class="o">*</span> <span class="n">channel</span>    <span class="p">(</span><span class="n">channel</span><span class="p">)</span> <span class="n">int64</span> <span class="mi">0</span>
+  <span class="o">*</span> <span class="n">name</span>       <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">int64</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span> <span class="mi">10</span> <span class="mi">11</span> <span class="mi">12</span> <span class="mi">13</span> <span class="mi">14</span> <span class="mi">15</span> <span class="mi">16</span> <span class="mi">17</span> <span class="mi">18</span> <span class="o">...</span>
+    <span class="n">target</span>     <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">object</span> <span class="s1">&#39;Normal&#39;</span> <span class="s1">&#39;Normal&#39;</span> <span class="s1">&#39;Normal&#39;</span> <span class="s1">&#39;Normal&#39;</span> <span class="s1">&#39;Normal&#39;</span> <span class="o">...</span>
+<span class="n">Data</span> <span class="n">variables</span><span class="p">:</span>
+    <span class="n">abs_diffs</span>  <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="n">float64</span> <span class="mf">4.695e+04</span> <span class="mf">6.112e+04</span> <span class="mf">5.127e+04</span> <span class="o">...</span>
+    <span class="n">mean</span>       <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="n">float64</span> <span class="o">-</span><span class="mf">4.132</span> <span class="o">-</span><span class="mf">52.44</span> <span class="mf">12.71</span> <span class="o">-</span><span class="mf">3.992</span> <span class="o">-</span><span class="mf">18.0</span> <span class="o">...</span>
+    <span class="n">mean2</span>      <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="n">float64</span> <span class="mf">1.65e+03</span> <span class="mf">5.133e+03</span> <span class="mf">2.384e+03</span> <span class="o">...</span>
+    <span class="n">skew</span>       <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="n">float64</span> <span class="mf">0.0328</span> <span class="o">-</span><span class="mf">0.09271</span> <span class="o">-</span><span class="mf">0.0041</span> <span class="mf">0.06368</span> <span class="o">...</span>
+    <span class="n">std</span>        <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="n">float64</span> <span class="mf">40.41</span> <span class="mf">48.81</span> <span class="mf">47.14</span> <span class="mf">47.07</span> <span class="mf">44.91</span> <span class="mf">45.02</span> <span class="o">...</span>
+</code></pre></div>
 
 <h3>Multi-channel time series</h3>
 <p>The EEG time series considered here consist of univariate signal measurements along a
@@ -284,33 +278,31 @@ also accepts multi-channel data; to demonstrate this, we will decompose each sig
 five frequency bands using a discrete wavelet transform as suggested by <a href="http://www.sciencedirect.com/science/article/pii/S0957417404001745">Subasi
 (2005)</a>, and then
 featurize each band separately using the five functions from above.</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pywt</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pywt</span>
 
 <span class="n">n_channels</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;dwts&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">pywt</span><span class="o">.</span><span class="n">wavedec</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">pywt</span><span class="o">.</span><span class="n">Wavelet</span><span class="p">(</span><span class="s1">&#39;db1&#39;</span><span class="p">),</span> <span class="n">level</span><span class="o">=</span><span class="n">n_channels</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
                <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;measurements&quot;</span><span class="p">]]</span>
-<span class="n">fset_dwt</span> <span class="o">=</span> <span class="n">featurize</span><span class="o">.</span><span class="n">featurize_time_series</span><span class="p">(</span><span class="n">times</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;dwts&quot;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+<span class="n">fset_dwt</span> <span class="o">=</span> <span class="n">featurize</span><span class="o">.</span><span class="n">featurize_time_series</span><span class="p">(</span><span class="n">times</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;dwts&quot;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                            <span class="n">features_to_use</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">guo_features</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span>
                                            <span class="n">targets</span><span class="o">=</span><span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">],</span>
                                            <span class="n">custom_functions</span><span class="o">=</span><span class="n">guo_features</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">fset_dwt</span><span class="p">)</span>
-</pre></div>
+<span class="nb">print</span><span class="p">(</span><span class="n">fset_dwt</span><span class="p">)</span>
+</code></pre></div>
 
-
-<div class="highlight"><pre><span></span>&lt;xarray.Dataset&gt;
-Dimensions:    (channel: 5, name: 500)
-Coordinates:
-  * channel    (channel) int64 0 1 2 3 4
-  * name       (name) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 ...
-    target     (name) object &#39;Normal&#39; &#39;Normal&#39; &#39;Normal&#39; &#39;Normal&#39; &#39;Normal&#39; ...
-Data variables:
-    abs_diffs  (name, channel) float64 2.513e+04 1.806e+04 3.241e+04 ...
-    skew       (name, channel) float64 -0.0433 0.06578 0.2999 0.1239 0.1179 ...
-    mean2      (name, channel) float64 1.294e+04 5.362e+03 2.321e+03 664.4 ...
-    mean       (name, channel) float64 -17.08 -6.067 -0.9793 0.1546 0.03555 ...
-    std        (name, channel) float64 112.5 72.97 48.17 25.77 10.15 119.8 ...
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="o">&gt;</span>
+<span class="n">Dimensions</span><span class="p">:</span>    <span class="p">(</span><span class="n">channel</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="mi">500</span><span class="p">)</span>
+<span class="n">Coordinates</span><span class="p">:</span>
+  <span class="o">*</span> <span class="n">channel</span>    <span class="p">(</span><span class="n">channel</span><span class="p">)</span> <span class="n">int64</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span>
+  <span class="o">*</span> <span class="n">name</span>       <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">int64</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span> <span class="mi">10</span> <span class="mi">11</span> <span class="mi">12</span> <span class="mi">13</span> <span class="mi">14</span> <span class="mi">15</span> <span class="mi">16</span> <span class="mi">17</span> <span class="mi">18</span> <span class="o">...</span>
+    <span class="n">target</span>     <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">object</span> <span class="s1">&#39;Normal&#39;</span> <span class="s1">&#39;Normal&#39;</span> <span class="s1">&#39;Normal&#39;</span> <span class="s1">&#39;Normal&#39;</span> <span class="s1">&#39;Normal&#39;</span> <span class="o">...</span>
+<span class="n">Data</span> <span class="n">variables</span><span class="p">:</span>
+    <span class="n">abs_diffs</span>  <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="n">float64</span> <span class="mf">2.513e+04</span> <span class="mf">1.806e+04</span> <span class="mf">3.241e+04</span> <span class="o">...</span>
+    <span class="n">skew</span>       <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="n">float64</span> <span class="o">-</span><span class="mf">0.0433</span> <span class="mf">0.06578</span> <span class="mf">0.2999</span> <span class="mf">0.1239</span> <span class="mf">0.1179</span> <span class="o">...</span>
+    <span class="n">mean2</span>      <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="n">float64</span> <span class="mf">1.294e+04</span> <span class="mf">5.362e+03</span> <span class="mf">2.321e+03</span> <span class="mf">664.4</span> <span class="o">...</span>
+    <span class="n">mean</span>       <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="n">float64</span> <span class="o">-</span><span class="mf">17.08</span> <span class="o">-</span><span class="mf">6.067</span> <span class="o">-</span><span class="mf">0.9793</span> <span class="mf">0.1546</span> <span class="mf">0.03555</span> <span class="o">...</span>
+    <span class="n">std</span>        <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="n">float64</span> <span class="mf">112.5</span> <span class="mf">72.97</span> <span class="mf">48.17</span> <span class="mf">25.77</span> <span class="mf">10.15</span> <span class="mf">119.8</span> <span class="o">...</span>
+</code></pre></div>
 
 <p>The output featureset has the same form as before, except now the <code>channel</code> coordinate is
 used to index the features by the corresponding frequency band. The functions in
@@ -332,7 +324,7 @@ compatible with <code>scikit-learn</code>.</p>
 <p>For this example, we'll test a random forest classifier for the built-in <code>cesium</code> features,
 and a 3-nearest neighbors classifier for the others, as suggested by <a href="http://linkinghub.elsevier.com/retrieve/pii/S0957417411003253">Guo et al.
 (2012)</a>.</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cesium.build_model</span> <span class="kn">import</span> <span class="n">build_model_from_featureset</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">cesium.build_model</span> <span class="kn">import</span> <span class="n">build_model_from_featureset</span>
 <span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
 <span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
 <span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">train_test_split</span>
@@ -351,8 +343,7 @@ and a 3-nearest neighbors classifier for the others, as suggested by <a href="ht
 <span class="n">model_dwt</span> <span class="o">=</span> <span class="n">build_model_from_featureset</span><span class="p">(</span><span class="n">fset_dwt</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">train</span><span class="p">),</span>
                                         <span class="n">KNeighborsClassifier</span><span class="p">(),</span>
                                         <span class="n">params_to_optimize</span><span class="o">=</span><span class="n">knn_param_grid</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <h2>Prediction</h2>
 <p>Making predictions for new time series based on these models follows the same pattern:
@@ -360,30 +351,28 @@ first the time series are featurized using
 <a href="https://cesium.readthedocs.org/en/latest/api/cesium.featurize.html#cesium.featurize.featurize_time_series"><code>featurize_timeseries</code></a>,
 and then predictions are made based on these features using
 <a href="https://cesium.readthedocs.org/en/latest/api/cesium.predict.html#cesium.predict.model_predictions"><code>predict.model_predictions</code></a>,</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
 <span class="kn">from</span> <span class="nn">cesium.predict</span> <span class="kn">import</span> <span class="n">model_predictions</span>
 
-<span class="n">preds_cesium</span> <span class="o">=</span> <span class="n">model_predictions</span><span class="p">(</span><span class="n">fset_cesium</span><span class="p">,</span> <span class="n">model_cesium</span><span class="p">,</span> <span class="n">return_probs</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">preds_guo</span> <span class="o">=</span> <span class="n">model_predictions</span><span class="p">(</span><span class="n">fset_guo</span><span class="p">,</span> <span class="n">model_guo</span><span class="p">,</span> <span class="n">return_probs</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">preds_dwt</span> <span class="o">=</span> <span class="n">model_predictions</span><span class="p">(</span><span class="n">fset_dwt</span><span class="p">,</span> <span class="n">model_dwt</span><span class="p">,</span> <span class="n">return_probs</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">preds_cesium</span> <span class="o">=</span> <span class="n">model_predictions</span><span class="p">(</span><span class="n">fset_cesium</span><span class="p">,</span> <span class="n">model_cesium</span><span class="p">,</span> <span class="n">return_probs</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">preds_guo</span> <span class="o">=</span> <span class="n">model_predictions</span><span class="p">(</span><span class="n">fset_guo</span><span class="p">,</span> <span class="n">model_guo</span><span class="p">,</span> <span class="n">return_probs</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">preds_dwt</span> <span class="o">=</span> <span class="n">model_predictions</span><span class="p">(</span><span class="n">fset_dwt</span><span class="p">,</span> <span class="n">model_dwt</span><span class="p">,</span> <span class="n">return_probs</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Built-in cesium features: training accuracy={:.2%}, test accuracy={:.2%}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Built-in cesium features: training accuracy=</span><span class="si">{:.2%}</span><span class="s2">, test accuracy=</span><span class="si">{:.2%}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
           <span class="n">accuracy_score</span><span class="p">(</span><span class="n">preds_cesium</span><span class="p">[</span><span class="n">train</span><span class="p">],</span> <span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">][</span><span class="n">train</span><span class="p">]),</span>
           <span class="n">accuracy_score</span><span class="p">(</span><span class="n">preds_cesium</span><span class="p">[</span><span class="n">test</span><span class="p">],</span> <span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">][</span><span class="n">test</span><span class="p">])))</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Guo et al. features: training accuracy={:.2%}, test accuracy={:.2%}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Guo et al. features: training accuracy=</span><span class="si">{:.2%}</span><span class="s2">, test accuracy=</span><span class="si">{:.2%}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
           <span class="n">accuracy_score</span><span class="p">(</span><span class="n">preds_guo</span><span class="p">[</span><span class="n">train</span><span class="p">],</span> <span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">][</span><span class="n">train</span><span class="p">]),</span>
           <span class="n">accuracy_score</span><span class="p">(</span><span class="n">preds_guo</span><span class="p">[</span><span class="n">test</span><span class="p">],</span> <span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">][</span><span class="n">test</span><span class="p">])))</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Wavelet transform features: training accuracy={:.2%}, test accuracy={:.2%}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Wavelet transform features: training accuracy=</span><span class="si">{:.2%}</span><span class="s2">, test accuracy=</span><span class="si">{:.2%}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
           <span class="n">accuracy_score</span><span class="p">(</span><span class="n">preds_dwt</span><span class="p">[</span><span class="n">train</span><span class="p">],</span> <span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">][</span><span class="n">train</span><span class="p">]),</span>
           <span class="n">accuracy_score</span><span class="p">(</span><span class="n">preds_dwt</span><span class="p">[</span><span class="n">test</span><span class="p">],</span> <span class="n">eeg</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">][</span><span class="n">test</span><span class="p">])))</span>
-</pre></div>
+</code></pre></div>
 
-
-<div class="highlight"><pre><span></span>Built-in cesium features: training accuracy=100.00%, test accuracy=83.20%
+<div class="highlight"><pre><span></span><code>Built-in cesium features: training accuracy=100.00%, test accuracy=83.20%
 Guo et al. features: training accuracy=90.93%, test accuracy=84.80%
 Wavelet transform features: training accuracy=100.00%, test accuracy=95.20%
-</pre></div>
-
+</code></pre></div>
 
 <p>The workflow presented here is intentionally simplistic and omits many important steps
 such as feature selection, model parameter selection, etc., which may all be
@@ -394,7 +383,7 @@ model from a set of time series and make predictions on new, unlabeled data. In
 upcoming posts we'll introduce the web frontend for <code>cesium</code> and describe how
 the same analysis can be performed in a browser with no setup or coding required.</p>
 	<hr/>
-	<h6>Written by <a href="http://cesium-ml.org/blog/author/cesium-developers.html">Cesium Developers</a> in <a href="http://cesium-ml.org/blog/category/misc.html">misc</a> on Fri 08 July 2016. Tags: <a href="http://cesium-ml.org/blog/tag/example.html">example</a>, </h6>
+	<h6>Written by <a href="https://cesium-ml.org/blog/author/cesium-developers.html">Cesium Developers</a> in <a href="https://cesium-ml.org/blog/category/misc.html">misc</a> on Fri 08 July 2016. Tags: <a href="https://cesium-ml.org/blog/tag/example.html">example</a>, </h6>
 </article>
 
 <hr/>
@@ -428,9 +417,9 @@ the same analysis can be performed in a browser with no setup or coding required
               <div class="panel">
                 <h5>Categories</h5>
                 <ul class="tag-cloud">
-                  <li ><a href="http://cesium-ml.org/blog/category/cesium.html">cesium</a></li>
-                  <li ><a href="http://cesium-ml.org/blog/category/engineering.html">engineering</a></li>
-                  <li class="active"><a href="http://cesium-ml.org/blog/category/misc.html">misc</a></li>
+                  <li ><a href="https://cesium-ml.org/blog/category/cesium.html">cesium</a></li>
+                  <li ><a href="https://cesium-ml.org/blog/category/engineering.html">engineering</a></li>
+                  <li class="active"><a href="https://cesium-ml.org/blog/category/misc.html">misc</a></li>
                 </ul>
               </div>
 
@@ -460,8 +449,8 @@ the same analysis can be performed in a browser with no setup or coding required
       </div><!--off-canvas inner-->
     </div><!--off-canvas wrap-->
 
-    <script src="http://cesium-ml.org/blog/theme/js/jquery.js"></script>
-    <script src="http://cesium-ml.org/blog/theme/js/foundation.min.js"></script>
+    <script src="https://cesium-ml.org/blog/theme/js/jquery.js"></script>
+    <script src="https://cesium-ml.org/blog/theme/js/foundation.min.js"></script>
     <script>
       $(document).foundation();
     </script>
