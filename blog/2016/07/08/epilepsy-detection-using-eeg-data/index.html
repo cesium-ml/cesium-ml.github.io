@@ -120,18 +120,18 @@
 	<blockquote>
 <p>IPython notebook: <a href="https://cesium-ml.org/blog/2016/07/08/epilepsy-detection-using-eeg-data/notebooks/EEG_Example.ipynb" download="EEG_Example.ipynb">download</a></p>
 </blockquote>
-<p>In this example we'll use the <a href="http://github.com/cesium-ml/cesium/"><code>cesium</code></a> library to compare
+<p>In this example we&rsquo;ll use the <a href="http://github.com/cesium-ml/cesium/"><code>cesium</code></a> library to compare
 various techniques for epilepsy detection using a classic EEG time series dataset from
 <a href="http://www.meb.uni-bonn.de/epileptologie/science/physik/eegdata.html">Andrzejak et al.</a>.
 The raw data are separated into five classes: Z, O, N, F, and S; we will consider a
 three-class classification problem of distinguishing normal (Z, O), interictal (N, F), and
 ictal (S) signals.</p>
-<p>The overall workflow consists of three steps: first, we "featurize" the time series by
+<p>The overall workflow consists of three steps: first, we &ldquo;featurize&rdquo; the time series by
 selecting some set of mathematical functions to apply to each; next, we build some
 classification models which use these features to distinguish between classes;
 finally, we validate our models by generating predictions for some unseen
 holdout set and comparing them to the true class labels.</p>
-<p>First, we'll load the data and inspect a representative time series from each class:</p>
+<p>First, we&rsquo;ll load the data and inspect a representative time series from each class:</p>
 <div class="highlight"><pre><span></span><code><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -154,12 +154,12 @@ holdout set and comparing them to the true class labels.</p>
     <span class="n">subplot</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;time (s)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;signal&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
 </code></pre></div>
 
-<p><img alt="png" src="https://cesium-ml.org/blog/2016/07/08/epilepsy-detection-using-eeg-data/images/EEG_Example_output_1_0.png"></p>
-<h2>Featurization</h2>
+<p><img alt="png" src="https://cesium-ml.org/blog/2016/07/08/epilepsy-detection-using-eeg-data/images/EEG_Example_output_1_0.png" /></p>
+<h2 id="featurization">Featurization</h2>
 <p>Once the data is loaded, we can generate features for each time series using the
 <a href="https://cesium.readthedocs.org/en/latest/api/cesium.featurize.html"><code>cesium.featurize</code></a>
 module. The <code>featurize</code> module includes many built-in choices of features which can be applied
-for any type of time series data; here we've chosen a few generic features that do not have
+for any type of time series data; here we&rsquo;ve chosen a few generic features that do not have
 any special biological significance.</p>
 <p>If Celery is running, the time series will automatically be split among the available workers
 and featurized in parallel; setting <code>use_celery=False</code> will cause the time series to be
@@ -210,14 +210,14 @@ is an <code>xarray.Dataset</code> which contains all the feature information nee
 learning model: feature values are stored as data variables, and the time series index/class
 label are stored as coordinates (a <code>channel</code> coordinate will also be used later for
 multi-channel data).</p>
-<h3>Custom feature functions</h3>
+<h3 id="custom-feature-functions">Custom feature functions</h3>
 <p>Custom feature functions not built into <code>cesium</code> may be passed in using the
 <code>custom_functions</code> keyword, either as a dictionary <code>{feature_name: function}</code>, or as a
 <a href="http://dask.pydata.org/en/latest/custom-graphs.html">dask graph</a>. Functions should take
 three arrays <code>times, measurements, errors</code> as inputs; details can be found in the
 <code>cesium.featurize</code>
 <a href="https://cesium.readthedocs.org/en/latest/api/cesium.featurize.html">documentation</a>.
-Here we'll compute five standard features for EEG analysis provided by <a href="http://linkinghub.elsevier.com/retrieve/pii/S0957417411003253">Guo et al.
+Here we&rsquo;ll compute five standard features for EEG analysis provided by <a href="http://linkinghub.elsevier.com/retrieve/pii/S0957417411003253">Guo et al.
 (2012)</a>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.stats</span>
@@ -238,7 +238,7 @@ Here we'll compute five standard features for EEG analysis provided by <a href="
     <span class="k">return</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">skew</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
 </code></pre></div>
 
-<p>Now we'll pass the desired feature functions as a dictionary via the <code>custom_functions</code>
+<p>Now we&rsquo;ll pass the desired feature functions as a dictionary via the <code>custom_functions</code>
 keyword argument.</p>
 <div class="highlight"><pre><span></span><code><span class="n">guo_features</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="n">mean_signal</span><span class="p">,</span>
@@ -270,7 +270,7 @@ keyword argument.</p>
     <span class="n">std</span>        <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">channel</span><span class="p">)</span> <span class="n">float64</span> <span class="mf">40.41</span> <span class="mf">48.81</span> <span class="mf">47.14</span> <span class="mf">47.07</span> <span class="mf">44.91</span> <span class="mf">45.02</span> <span class="o">...</span>
 </code></pre></div>
 
-<h3>Multi-channel time series</h3>
+<h3 id="multi-channel-time-series">Multi-channel time series</h3>
 <p>The EEG time series considered here consist of univariate signal measurements along a
 uniform time grid. But
 <a href="https://cesium.readthedocs.org/en/latest/api/cesium.featurize.html#cesium.featurize.featurize_time_series"><code>featurize_time_series</code></a>
@@ -311,7 +311,7 @@ and <a href="https://cesium.readthedocs.org/en/latest/api/cesium.predict.html"><
 all accept featuresets from single- or multi-channel data, so no additional steps are
 required to train models or make predictions for multichannel featuresets using the
 <code>cesium</code> library.</p>
-<h2>Model Building</h2>
+<h2 id="model-building">Model Building</h2>
 <p>Model building in <code>cesium</code> is handled by the
 <a href="https://cesium.readthedocs.org/en/latest/api/cesium.build_model.html#cesium.build_model.build_model_from_featureset"><code>build_model_from_featureset</code></a>
 function in the <code>cesium.build_model</code> submodule. The featureset output by
@@ -321,7 +321,7 @@ model; <code>build_model_from_featureset</code> is simply a wrapper that calls t
 given <code>scikit-learn</code> model with the appropriate inputs. In the case of multichannel
 features, it also handles reshaping the featureset into a (rectangular) form that is
 compatible with <code>scikit-learn</code>.</p>
-<p>For this example, we'll test a random forest classifier for the built-in <code>cesium</code> features,
+<p>For this example, we&rsquo;ll test a random forest classifier for the built-in <code>cesium</code> features,
 and a 3-nearest neighbors classifier for the others, as suggested by <a href="http://linkinghub.elsevier.com/retrieve/pii/S0957417411003253">Guo et al.
 (2012)</a>.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">cesium.build_model</span> <span class="kn">import</span> <span class="n">build_model_from_featureset</span>
@@ -345,7 +345,7 @@ and a 3-nearest neighbors classifier for the others, as suggested by <a href="ht
                                         <span class="n">params_to_optimize</span><span class="o">=</span><span class="n">knn_param_grid</span><span class="p">)</span>
 </code></pre></div>
 
-<h2>Prediction</h2>
+<h2 id="prediction">Prediction</h2>
 <p>Making predictions for new time series based on these models follows the same pattern:
 first the time series are featurized using
 <a href="https://cesium.readthedocs.org/en/latest/api/cesium.featurize.html#cesium.featurize.featurize_time_series"><code>featurize_timeseries</code></a>,
@@ -380,7 +380,7 @@ incorporated just as they would for any other <code>scikit-learn</code> analysis
 But with essentially three function calls (<code>featurize_time_series</code>,
 <code>build_model_from_featureset</code>, and <code>model_predictions</code>), we are able to build a
 model from a set of time series and make predictions on new, unlabeled data. In
-upcoming posts we'll introduce the web frontend for <code>cesium</code> and describe how
+upcoming posts we&rsquo;ll introduce the web frontend for <code>cesium</code> and describe how
 the same analysis can be performed in a browser with no setup or coding required.</p>
 	<hr/>
 	<h6>Written by <a href="https://cesium-ml.org/blog/author/cesium-developers.html">Cesium Developers</a> in <a href="https://cesium-ml.org/blog/category/misc.html">misc</a> on Fri 08 July 2016. Tags: <a href="https://cesium-ml.org/blog/tag/example.html">example</a>, </h6>
